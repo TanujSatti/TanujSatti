@@ -1,17 +1,18 @@
-# iamtanuj
-# TanujSatti.github.io
+
+
 
 
 
 ## PORTFOLIO UPDATED ON
-# 🚀 Project Name
+# 🚀 AqUaNAV -Autonomous Underwarter Navigation System
 
 _A brief description of what the project does and who it's for._
 
 ---
 
 ## 📖 Table of Contents
-- [About](#about)
+- [About](#about) Weblink:
+  # TanujSatti.github.io
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -23,20 +24,16 @@ _A brief description of what the project does and who it's for._
 
 ## 📚 About
 
-Describe the motivation behind the project. What problem does it solve? What makes it unique? Any background information can go here.
+- AquaNav is designed to enable AUVs to navigate complex underwater terrains using AI-powered algorithms.
+- It helps in oceanographic data collection and marine research.
 
 ---
 
 ## ✨ Features
 
-- ✅ **Feature 1** – Brief description  
-- ✅ **Feature 2** – Brief description  
-- ✅ **Feature 3** – Brief description  
+- ✅ **Real-time Obstacle detection and avoidance** – Brief description  
+- ✅ **Autonomous navigation system** – Brief description  
+- ✅ **Remote monitoring and control via a dashboard** – Brief description  
 
 ---
 
-## ⚙️ Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/username/project-name.git
