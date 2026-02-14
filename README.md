@@ -1,137 +1,124 @@
-# 🌊 Tanuj Satti – Portfolio  
+# 🌊 Tanuj Satti
 
 <p align="center">
-  <b>🚀 AqUaNAV – Autonomous Underwater Navigation System</b><br>
-  AI-powered navigation for Autonomous Underwater Vehicles (AUVs)
+  <b>M.Sc. Mechatronics & Cyber-Physical Systems Student</b><br>
+  Technische Hochschule Deggendorf (THD), Germany
 </p>
 
 ---
 
-## 📌 Portfolio Last Updated
-**February 2026**
+## 👨‍🎓 About Me
+
+I am currently pursuing an **M.Sc. in Mechatronics and Cyber-Physical Systems** at **Technische Hochschule Deggendorf (THD), Germany**.
+
+I am a Mechanical Engineer with hands-on experience in advanced prototyping, CAD, robotics, automation, and carbon composite design. My passion lies in intelligent robotics, autonomous systems, clean energy technologies, and medical device innovation.
+
+I enjoy building real-world engineering solutions that integrate hardware, software, and AI-driven systems.
 
 ---
 
-## 📖 Table of Contents
+# 🚀 Featured Project
 
-- [👨‍💻 About Me](#-about-me)
-- [📊 GitHub Overview](#-github-overview)
-- [🌊 AqUaNAV Project](#-aquanav-project)
-- [✨ Features](#-features)
-- [⚙️ Installation](#-installation)
-- [🚀 Usage](#-usage)
-- [🤝 Contributing](#-contributing)
-- [📜 License](#-license)
-- [📬 Contact](#-contact)
+## 🌊 AqUaNAV – Autonomous Underwater Navigation System
 
----
+An AI-powered navigation system designed for Autonomous Underwater Vehicles (AUVs) to operate in complex marine environments.
 
-# 👨‍💻 About Me
-
-Hi, I'm **Tanuj Satti**, a developer passionate about:
-
-- 🤖 Robotics & Autonomous Systems  
-- 🌊 Marine Technology & AUV Systems  
-- 🧠 Artificial Intelligence & Computer Vision  
-- 🚀 Real-world engineering solutions  
-
-I specialize in building intelligent systems that combine hardware and software to solve complex real-world challenges.
+### 🔹 Key Features
+- Real-time obstacle detection & avoidance  
+- Autonomous path planning  
+- AI-powered terrain adaptation  
+- Remote monitoring dashboard  
+- Modular architecture for multiple AUV platforms  
 
 ---
 
-# 📊 GitHub Overview
+# 📊 Engineering & Robotics Projects
 
-| Project Name | Description | Tech Stack | Status |
-|-------------|------------|------------|--------|
-| 🚀 AqUaNAV | AI-powered underwater navigation system for AUVs | Python, AI/ML, Computer Vision | 🟡 In Progress |
-| 🤖 Robotics Projects | Autonomous & embedded systems | C++, ROS, Embedded Systems | 🟢 Active |
-| 🧠 AI Models | Machine learning & deep learning experiments | Python, TensorFlow/PyTorch | 🔵 Ongoing |
-| 🌐 Web Dashboard | Remote monitoring interface for robotics systems | React, Node.js | 🟡 Development |
-
-🔗 **GitHub:** https://github.com/TanujSatti  
-
----
-
-# 🌊 AqUaNAV Project
-
-## 📚 About
-
-**AqUaNAV (Autonomous Underwater Navigation System)** enables AUVs to navigate complex underwater terrains using AI-driven algorithms.
-
-### 🌍 Applications
-- Oceanographic data collection  
-- Marine ecosystem research  
-- Underwater terrain mapping  
-- Intelligent obstacle avoidance in low visibility environments  
+| Project | Year | Domain | Key Highlights |
+|----------|------|--------|----------------|
+| 🫁 Oxygen Concentrator | 2021–2022 | Biomedical Engineering | 30 L/min oxygen generation, automatic breath detection, SpO2 & pressure monitoring |
+| 🫀 Vento Monitor | 2021 | Medical Devices | GPRS tracking, QR-based doctor access, remote parameter control |
+| 💴 Currency Sorting Device | 2021 | Computer Vision | OpenCV-based currency detection |
+| 🦠 Aerosol Containment Device | 2020 | Healthcare | COVID-era aerosol trapping system |
+| 🌬 Mechanical Ventilator | 2020–2021 | Mechatronics | Portable ventilator with monitoring system |
+| 🖨 Self-Built 3D Printer | 2019 | Manufacturing | Large build volume multi-material printer |
+| 🤖 Gesture Controlled Robot | 2018 | Robotics | 25kg lifting capacity, flex sensor control |
 
 ---
 
-# ✨ Features
+# 🏆 Patents
 
-- ✅ **Real-Time Obstacle Detection & Avoidance**  
-  Sensor fusion + AI vision models for detecting underwater obstacles.
-
-- ✅ **Autonomous Path Planning**  
-  Smart navigation algorithms for terrain adaptation.
-
-- ✅ **Remote Monitoring Dashboard**  
-  Web-based system for telemetry and mission control.
-
-- ✅ **Modular System Architecture**  
-  Easily adaptable to multiple AUV platforms.
+- Self-Sanitizing Attendance Recorder (IP Australia)  
+- In-Bed Exercising & Monitoring Device (IP Australia)  
+- Bio-Printing Device for Wound Healing (IP India)  
+- Waste Fabric Recycling System (IP Australia)  
+- Multi-Material Extrusion 3D Printing Apparatus (IP India)  
+- Oxygen Concentrator Design (IP India, 2025)  
 
 ---
 
-# ⚙️ Installation
+# 🛠 Technical Skills
 
-```bash
-# Clone the repository
-git clone https://github.com/TanujSatti/AqUaNAV.git
-
-# Move into project folder
-cd AqUaNAV
-
-# Install dependencies
-pip install -r requirements.txt
-```
+**Programming:** Python, C++, Arduino, MATLAB  
+**Tools:** SolidWorks, Fusion 360, AutoCAD, ROS/ROS2, CNC CAM  
+**Domains:** Robotics, Mechatronics, Embedded Systems, AI, Clean Energy Systems  
 
 ---
 
-# 🚀 Usage
+# 📚 Education
 
-```bash
-python main.py
-```
+**M.Sc. Mechatronics & Cyber-Physical Systems**  
+Technische Hochschule Deggendorf (THD), Germany  
 
-Edit `config.yaml` before deployment to customize navigation parameters.
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome!
-
-1. Fork the repository  
-2. Create a feature branch  
-3. Commit changes  
-4. Open a pull request  
+**B.Tech Mechanical Engineering**  
+SGT University, India (CGPA: 8.79)
 
 ---
 
-# 📜 License
+# 🇩🇪 Deutsche Version (German Translation)
 
-This project is licensed under the MIT License.
+## 👨‍🎓 Über mich
+
+Ich studiere derzeit **M.Sc. Mechatronik und Cyber-Physische Systeme** an der **Technischen Hochschule Deggendorf (THD), Deutschland**.
+
+Ich bin Maschinenbauingenieur mit praktischer Erfahrung in Prototyping, CAD-Konstruktion, Robotik, Automatisierung und Faserverbundwerkstoffen. Mein Schwerpunkt liegt auf intelligenter Robotik, autonomen Systemen, nachhaltigen Energietechnologien und medizintechnischen Innovationen.
+
+Ich entwickle praxisnahe technische Lösungen, die Hardware, Software und KI-basierte Systeme miteinander verbinden.
 
 ---
 
-# 📬 Contact
+## 🚀 Ausgewähltes Projekt
 
-📧 Email: your-email@example.com  
-🔗 LinkedIn: your-linkedin-profile  
+### 🌊 AqUaNAV – Autonomes Unterwasser-Navigationssystem
+
+Ein KI-gestütztes Navigationssystem für autonome Unterwasserfahrzeuge (AUVs), entwickelt für komplexe Meeresumgebungen.
+
+**Funktionen:**
+- Echtzeit-Hinderniserkennung und -vermeidung  
+- Autonome Pfadplanung  
+- KI-basierte Geländeanpassung  
+- Remote-Monitoring Dashboard  
+- Modulare Systemarchitektur  
+
+---
+
+## 🛠 Fachkompetenzen
+
+**Programmierung:** Python, C++, Arduino, MATLAB  
+**Software & Tools:** SolidWorks, Fusion 360, AutoCAD, ROS/ROS2  
+**Fachgebiete:** Robotik, Mechatronik, Eingebettete Systeme, Künstliche Intelligenz, Energietechnik  
+
+---
+
+# 📫 Contact
+
+📧 Email: sattitanuj3@gmail.com  
+🌐 Portfolio: https://tanujsatti.github.io/TanujSatti/  
+🔗 LinkedIn: https://www.linkedin.com/in/tanuj-satti-387776164  
 💻 GitHub: https://github.com/TanujSatti  
 
 ---
 
 <p align="center">
-  ⭐ If you like this project, consider giving it a star!
+  ⭐ Open to research collaborations, internships, and engineering opportunities in Germany & Europe.
 </p>
