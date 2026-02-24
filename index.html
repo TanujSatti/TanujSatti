@@ -4,8 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Tanuj Satti — Robotics & Mechatronics Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/><style>
 /*===========================================
   DESIGN SYSTEM
 ===========================================*/
@@ -601,6 +600,18 @@ nav{
 }
 .comp-fill.animated{transform:scaleX(1)}
 
+/* Level dots */
+.level-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 48px}
+.level-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.level-name{font-size:13px;color:var(--white);font-family:var(--font-head);font-weight:500;flex:1;min-width:0}
+.level-dots{display:flex;gap:6px;flex-shrink:0}
+.ld{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);transition:all .3s ease}
+.ld.a{background:var(--green);border-color:var(--green);box-shadow:0 0 8px rgba(13,245,160,0.5)}
+.ld.h{background:rgba(13,245,160,0.35);border-color:rgba(13,245,160,0.5)}
+.level-label{font-family:var(--font-head);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);flex-shrink:0;width:80px;text-align:right}
+@media(max-width:900px){.level-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.level-name{font-size:12px}.level-label{display:none}}
+
 /*===========================================
   PROJECTS
 ===========================================*/
@@ -897,6 +908,432 @@ footer .container{
   .about-highlights{grid-template-columns:1fr}
   .section{padding:80px 0}
 }
+
+/* =============================================
+   3D SCROLL PROJECT CUBE  —  full rewrite
+   ============================================= */
+
+/* ---- Section wrapper ---- */
+#projects {
+  position: relative;
+}
+
+.proj-header {
+  padding: 120px 0 56px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ---- Tall scroll track ---- */
+.cube-track {
+  height: 700vh;
+  position: relative;
+}
+
+/* ---- Sticky viewport ---- */
+.cube-sticky-wrap {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #010308;
+}
+
+/* Animated cyber grid floor */
+.cube-sticky-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(13,245,160,0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13,245,160,0.09) 1px, transparent 1px);
+  background-size: 64px 64px;
+  animation: gridScroll 6s linear infinite;
+  mask-image: radial-gradient(ellipse 70% 60% at center, black 30%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes gridScroll {
+  from { background-position: 0 0; }
+  to   { background-position: 64px 64px; }
+}
+
+/* Vignette overlay */
+.cube-sticky-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 80% at center, transparent 35%, #010308 80%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- Progress bar ---- */
+.proj-progress-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.05);
+  z-index: 20;
+}
+.proj-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--green), #00ffcc, var(--green));
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+  transition: width 0.15s ease;
+  box-shadow: 0 0 12px 2px rgba(13,245,160,0.6);
+}
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* ---- Counter ---- */
+.proj-counter {
+  position: absolute;
+  top: 28px; right: 36px;
+  z-index: 20;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-display);
+  color: var(--muted);
+  letter-spacing: .06em;
+}
+#projCurrent {
+  font-size: 42px;
+  line-height: 1;
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(13,245,160,0.7);
+  transition: color .3s;
+}
+.proj-counter-sep { font-size: 18px; }
+#projTotal { font-size: 22px; }
+
+/* ---- Scroll hint ---- */
+.proj-scroll-hint {
+  position: absolute;
+  bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-head);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted);
+  z-index: 20;
+  opacity: 1;
+  transition: opacity .5s;
+  animation: bounce 2.2s ease-in-out infinite;
+}
+.proj-scroll-hint.hidden { opacity: 0; pointer-events: none; }
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ---- Side dots ---- */
+.proj-dots {
+  position: absolute;
+  left: 36px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 14px;
+  z-index: 20;
+}
+.proj-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  background: transparent;
+  cursor: pointer; padding: 0;
+  transition: all .3s cubic-bezier(.34,1.56,.64,1);
+}
+.proj-dot.active {
+  background: var(--green);
+  border-color: var(--green);
+  transform: scale(1.5);
+  box-shadow: 0 0 0 4px rgba(13,245,160,0.2), 0 0 14px rgba(13,245,160,0.6);
+}
+
+/* ---- Project side labels ---- */
+.proj-labels {
+  position: absolute;
+  right: 36px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 10px;
+  z-index: 20;
+}
+.proj-label-item {
+  font-family: var(--font-head);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted);
+  opacity: .4;
+  transition: all .35s ease;
+  text-align: right;
+  white-space: nowrap;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.proj-label-item.active {
+  color: var(--green);
+  opacity: 1;
+  text-shadow: 0 0 12px rgba(13,245,160,0.7);
+}
+
+/* ---- 3D Scene ---- */
+.proj-scene {
+  position: relative;
+  z-index: 10;
+  width: clamp(300px, 42vw, 480px);
+  height: clamp(300px, 42vw, 480px);
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+}
+
+/* Big atmospheric glow behind cube */
+.proj-cube-glow {
+  position: absolute;
+  inset: -80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%,
+    rgba(13,245,160,0.28) 0%,
+    rgba(13,245,160,0.08) 40%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  animation: ambientGlow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes ambientGlow {
+  0%,100% { opacity:.7; transform: scale(1)   rotate(0deg);   }
+  33%      { opacity:1;  transform: scale(1.1) rotate(3deg);   }
+  66%      { opacity:.8; transform: scale(.95) rotate(-2deg);  }
+}
+
+/* Corner accent lights */
+.proj-cube-glow::before,
+.proj-cube-glow::after {
+  content: '';
+  position: absolute;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  filter: blur(30px);
+}
+.proj-cube-glow::before {
+  background: rgba(0,120,255,0.18);
+  top: 10%; right: 10%;
+  animation: accentLight1 5s ease-in-out infinite;
+}
+.proj-cube-glow::after {
+  background: rgba(180,50,255,0.1);
+  bottom: 10%; left: 10%;
+  animation: accentLight2 6s ease-in-out infinite;
+}
+@keyframes accentLight1 { 0%,100%{opacity:.5} 50%{opacity:1} }
+@keyframes accentLight2 { 0%,100%{opacity:.3} 50%{opacity:.8} }
+
+.proj-cube-wrapper {
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.proj-cube {
+  width: 100%; height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  /* will-change avoids repaint jank */
+  will-change: transform;
+}
+
+/* ---- 6 Faces ---- */
+/* Half-size = 50% of scene width, set via CSS variable */
+.proj-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  display: flex; align-items: center; justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+
+  /* Glass dark background */
+  background:
+    linear-gradient(135deg,
+      rgba(8,18,38,0.97) 0%,
+      rgba(4,10,22,0.99) 100%
+    );
+
+  /* Multi-layer border glow */
+  border: 1px solid rgba(13,245,160,0.5);
+  box-shadow:
+    0 0 0 1px rgba(13,245,160,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 0 80px rgba(13,245,160,0.04),
+    0 30px 80px rgba(0,0,0,0.8);
+
+  /* Smooth transition so face doesn't pop */
+  transition: box-shadow .4s ease;
+}
+
+/* Active face — extra glow */
+.proj-face.face-flash {
+  animation: faceFlash .7s ease forwards;
+}
+@keyframes faceFlash {
+  0%   { box-shadow: 0 0 0 1px rgba(13,245,160,.08), inset 0 0 80px rgba(13,245,160,.04), 0 30px 80px rgba(0,0,0,.8); }
+  25%  { box-shadow: 0 0 0 2px rgba(13,245,160,.6),  inset 0 0 120px rgba(13,245,160,.18), 0 0 80px rgba(13,245,160,.4); }
+  100% { box-shadow: 0 0 0 1px rgba(13,245,160,.15), inset 0 0 60px rgba(13,245,160,.06), 0 30px 80px rgba(0,0,0,.8); }
+}
+
+/* Scanline texture */
+.proj-face::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.25) 3px,
+    rgba(0,0,0,0.25) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+/* Corner bracket decoration */
+.proj-face::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(13,245,160,0.12);
+  border-radius: 14px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Face positioning — half = 240px for 480px cube, scales via JS helper */
+.proj-face--front  { transform: rotateY(  0deg) translateZ(var(--half,240px)); }
+.proj-face--right  { transform: rotateY( 90deg) translateZ(var(--half,240px)); }
+.proj-face--back   { transform: rotateY(180deg) translateZ(var(--half,240px)); }
+.proj-face--left   { transform: rotateY(-90deg) translateZ(var(--half,240px)); }
+.proj-face--top    { transform: rotateX( 90deg) translateZ(var(--half,240px)); }
+.proj-face--bottom { transform: rotateX(-90deg) translateZ(var(--half,240px)); }
+
+/* ---- Face inner glow spot ---- */
+.pf-glow {
+  position: absolute;
+  top: -60px; left: -60px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle,
+    rgba(13,245,160,0.14) 0%,
+    transparent 65%
+  );
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- Face content ---- */
+.pf-inner {
+  position: relative; z-index: 3;
+  padding: clamp(20px, 3vw, 36px);
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  justify-content: center;
+}
+
+.pf-icon {
+  font-size: clamp(42px, 6vw, 60px);
+  line-height: 1;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 0 20px rgba(13,245,160,0.55))
+          drop-shadow(0 0 6px rgba(255,255,255,0.3));
+  display: block;
+}
+
+.pf-tag {
+  font-family: var(--font-head);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 10px;
+  opacity: .9;
+  display: flex; align-items: center; gap: 6px;
+}
+.pf-tag::before {
+  content: '';
+  display: inline-block;
+  width: 20px; height: 1px;
+  background: var(--green);
+  opacity: .6;
+}
+
+.pf-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.5vw, 36px);
+  letter-spacing: .03em;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 6px;
+  text-shadow: 0 0 30px rgba(13,245,160,0.2);
+}
+
+.pf-sub {
+  font-family: var(--font-head);
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  letter-spacing: .04em;
+}
+
+.pf-desc {
+  font-size: clamp(11px, 1.3vw, 13px);
+  color: var(--mid);
+  line-height: 1.68;
+  flex: 1;
+  margin-bottom: 18px;
+}
+
+.pf-chips {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.pf-chips span {
+  font-family: var(--font-head);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 4px;
+  background: rgba(13,245,160,0.08);
+  border: 1px solid rgba(13,245,160,0.3);
+  color: var(--green);
+  transition: background .2s;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .proj-labels { display: none; }
+}
+@media (max-width: 600px) {
+  .proj-scene { width: 85vw; height: 85vw; }
+  .proj-face--front  { transform: rotateY(  0deg) translateZ(42.5vw); }
+  .proj-face--right  { transform: rotateY( 90deg) translateZ(42.5vw); }
+  .proj-face--back   { transform: rotateY(180deg) translateZ(42.5vw); }
+  .proj-face--left   { transform: rotateY(-90deg) translateZ(42.5vw); }
+  .proj-face--top    { transform: rotateX( 90deg) translateZ(42.5vw); }
+  .proj-face--bottom { transform: rotateX(-90deg) translateZ(42.5vw); }
+  .proj-dots { left: 14px; }
+  .proj-counter { right: 14px; top: 20px; }
+  #projCurrent { font-size: 30px; }
+  .pf-inner { padding: 18px; }
+}
+
 </style>
 </head>
 <body>
@@ -916,7 +1353,7 @@ footer .container{
     <li><a href="#patents">Patents</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="mailto:sattitanuj3@gmail.com" class="nav-resume">Hire Me</a>
+  <a href="/cdn-cgi/l/email-protection#3f4c5e4b4b564b5e514a550c7f58525e5653115c5052" class="nav-resume">Hire Me</a>
 </nav>
 
 <!-- ===== HERO ===== -->
@@ -1085,7 +1522,7 @@ footer .container{
           </li>
           <li>
             <span class="info-key">Email</span>
-            <span class="info-val"><a href="mailto:sattitanuj3@gmail.com" style="color:var(--green);text-decoration:none">sattitanuj3@gmail.com</a></span>
+            <span class="info-val"><a href="/cdn-cgi/l/email-protection#a6d5c7d2d2cfd2c7c8d3cc95e6c1cbc7cfca88c5c9cb" style="color:var(--green);text-decoration:none"><span class="__cf_email__" data-cfemail="a8dbc9dcdcc1dcc9c6ddc29be8cfc5c9c1c486cbc7c5">[email&#160;protected]</span></a></span>
           </li>
         </ul>
         <p class="comp-title" style="margin-bottom:12px">Languages</p>
@@ -1099,7 +1536,7 @@ footer .container{
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
             LinkedIn
           </a>
-          <a href="mailto:sattitanuj3@gmail.com" class="link-chip">
+          <a href="/cdn-cgi/l/email-protection#4f3c2e3b3b263b2e213a257c0f28222e2623612c2022" class="link-chip">
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             Email Me
           </a>
@@ -1227,38 +1664,46 @@ footer .container{
     <!-- Competency bars -->
     <div class="comp-section reveal" style="margin-top:64px">
       <p class="comp-title">Core Competencies</p>
-      <div class="comp-grid">
-        <div class="comp-item">
-          <div class="comp-header"><span class="comp-name">SolidWorks / Fusion 360</span><span class="comp-pct">90%</span></div>
-          <div class="comp-bar"><div class="comp-fill" data-width="0.9"></div></div>
+      <div class="level-grid">
+        <div class="level-item">
+          <span class="level-name">SolidWorks / Fusion 360</span>
+          <div class="level-dots"><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span></div>
+          <span class="level-label">Expert</span>
         </div>
-        <div class="comp-item">
-          <div class="comp-header"><span class="comp-name">Embedded Systems / Arduino</span><span class="comp-pct">85%</span></div>
-          <div class="comp-bar"><div class="comp-fill" data-width="0.85"></div></div>
+        <div class="level-item">
+          <span class="level-name">Embedded Systems / Arduino</span>
+          <div class="level-dots"><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld h"></span></div>
+          <span class="level-label">Advanced</span>
         </div>
-        <div class="comp-item">
-          <div class="comp-header"><span class="comp-name">Python / OpenCV</span><span class="comp-pct">80%</span></div>
-          <div class="comp-bar"><div class="comp-fill" data-width="0.8"></div></div>
+        <div class="level-item">
+          <span class="level-name">Python / OpenCV</span>
+          <div class="level-dots"><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld"></span></div>
+          <span class="level-label">Advanced</span>
         </div>
-        <div class="comp-item">
-          <div class="comp-header"><span class="comp-name">Carbon Fibre Manufacturing</span><span class="comp-pct">85%</span></div>
-          <div class="comp-bar"><div class="comp-fill" data-width="0.85"></div></div>
+        <div class="level-item">
+          <span class="level-name">Carbon Fibre Manufacturing</span>
+          <div class="level-dots"><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld h"></span></div>
+          <span class="level-label">Advanced</span>
         </div>
-        <div class="comp-item">
-          <div class="comp-header"><span class="comp-name">ROS 2 / Robot Kinematics</span><span class="comp-pct">70%</span></div>
-          <div class="comp-bar"><div class="comp-fill" data-width="0.7"></div></div>
+        <div class="level-item">
+          <span class="level-name">ROS 2 / Robot Kinematics</span>
+          <div class="level-dots"><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld"></span><span class="ld"></span></div>
+          <span class="level-label">Intermediate</span>
         </div>
-        <div class="comp-item">
-          <div class="comp-header"><span class="comp-name">Research &amp; Patent Writing</span><span class="comp-pct">90%</span></div>
-          <div class="comp-bar"><div class="comp-fill" data-width="0.9"></div></div>
+        <div class="level-item">
+          <span class="level-name">Research &amp; Patent Writing</span>
+          <div class="level-dots"><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span></div>
+          <span class="level-label">Expert</span>
         </div>
-        <div class="comp-item">
-          <div class="comp-header"><span class="comp-name">C / C++</span><span class="comp-pct">75%</span></div>
-          <div class="comp-bar"><div class="comp-fill" data-width="0.75"></div></div>
+        <div class="level-item">
+          <span class="level-name">C / C++</span>
+          <div class="level-dots"><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld h"></span><span class="ld"></span></div>
+          <span class="level-label">Intermediate</span>
         </div>
-        <div class="comp-item">
-          <div class="comp-header"><span class="comp-name">Mechatronic Prototyping</span><span class="comp-pct">88%</span></div>
-          <div class="comp-bar"><div class="comp-fill" data-width="0.88"></div></div>
+        <div class="level-item">
+          <span class="level-name">Mechatronic Prototyping</span>
+          <div class="level-dots"><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld a"></span><span class="ld h"></span></div>
+          <span class="level-label">Advanced</span>
         </div>
       </div>
     </div>
@@ -1267,139 +1712,159 @@ footer .container{
 
 <div class="divider"></div>
 
-<!-- ===== PROJECTS ===== -->
-<section id="projects" class="section">
-  <div class="container">
+<!-- ===== PROJECTS — 3D SCROLL CUBE ===== -->
+<section id="projects">
+
+  <!-- Header sits above the sticky scroll zone -->
+  <div class="proj-header container">
     <div class="label-badge reveal">Projects</div>
     <h2 class="display reveal">Selected <span>Work.</span></h2>
-    <p class="projects-subhead reveal">Practical, tested systems designed under real-world constraints with patients and people in mind.</p>
-
-    <div class="projects-grid">
-
-      <!-- Large card -->
-      <div class="proj-card large reveal">
-        <div class="proj-card-img">
-          <div class="img-glow"></div>
-          <span class="icon">🫁</span>
-        </div>
-        <div class="proj-card-body">
-          <span class="proj-tag">Medical Device · 2021–2022</span>
-          <h3 class="proj-title">Vento-Monitor — Intelligent Ventilator</h3>
-          <p class="proj-desc">
-            A smart mechanical ventilator with inbuilt GPRS for patient tracking and QR-code-based remote physician access. Patients can be monitored in real-time; physicians can adjust PIP, PEEP, O₂, and BPM parameters remotely. Built with an automatic breath stabiliser and a 7" touch UI, targeting low-cost hospital deployment and patient transport.
-          </p>
-          <div class="proj-meta">
-            <span class="proj-chip">GPRS Module</span>
-            <span class="proj-chip">Embedded C</span>
-            <span class="proj-chip">Sensor Integration</span>
-            <span class="proj-chip">Mechanical Design</span>
-            <span class="proj-chip">QR Remote Access</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="proj-card reveal reveal-d1">
-        <div class="proj-card-img">
-          <div class="img-glow"></div>
-          <span class="icon">💨</span>
-        </div>
-        <div class="proj-card-body">
-          <span class="proj-tag">Medical Device · 2021–2022</span>
-          <h3 class="proj-title">Portable Oxygen Concentrator</h3>
-          <p class="proj-desc">
-            A 30 L/min oxygen concentrator with automatic breath detection, pressure control, adjustable LPM, and embedded SpO₂ / O₂ / pressure monitoring. Designed for multi-purpose clinical use — compressing it into a portable, maintainable, low-cost unit for emerging markets.
-          </p>
-          <div class="proj-meta">
-            <span class="proj-chip">SpO₂ Sensor</span>
-            <span class="proj-chip">Pressure Control</span>
-            <span class="proj-chip">Embedded</span>
-            <span class="proj-chip">DFM</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="proj-card reveal reveal-d2">
-        <div class="proj-card-img">
-          <div class="img-glow"></div>
-          <span class="icon">🖨️</span>
-        </div>
-        <div class="proj-card-body">
-          <span class="proj-tag">Additive Manufacturing · 2019</span>
-          <h3 class="proj-title">SG3D i4.0 — Multi-Material 3D Printer</h3>
-          <p class="proj-desc">
-            Large-format FDM printer (310×310×800 mm) capable of PETG, ABS, PLA, carbon fibre, and diamond-infused filament. Paired with a patented multi-material extrusion system enabling functional prototypes and medical prosthetics in a single workflow.
-          </p>
-          <div class="proj-meta">
-            <span class="proj-chip">Mechanism Design</span>
-            <span class="proj-chip">Firmware</span>
-            <span class="proj-chip">Patent IP</span>
-            <span class="proj-chip">Prosthetics</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="proj-card reveal">
-        <div class="proj-card-img">
-          <div class="img-glow"></div>
-          <span class="icon">🤚</span>
-        </div>
-        <div class="proj-card-body">
-          <span class="proj-tag">Robotics · 2018</span>
-          <h3 class="proj-title">Gesture-Controlled Robot</h3>
-          <p class="proj-desc">
-            A 15 kg payload robot driven by flex-sensor glove input with a range of 200–300 m — built from scratch without prior coding experience. Later evolved into a wall-climbing surface-cleaning robot, demonstrating iterative product thinking.
-          </p>
-          <div class="proj-meta">
-            <span class="proj-chip">Flex Sensors</span>
-            <span class="proj-chip">Embedded C</span>
-            <span class="proj-chip">Kinematics</span>
-            <span class="proj-chip">RF Control</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="proj-card reveal reveal-d1">
-        <div class="proj-card-img">
-          <div class="img-glow"></div>
-          <span class="icon">💴</span>
-        </div>
-        <div class="proj-card-body">
-          <span class="proj-tag">Automation · 2021</span>
-          <h3 class="proj-title">Dhanrakshak — Currency Sanitising &amp; Sorting</h3>
-          <p class="proj-desc">
-            A self-sanitising, sorting, and currency-detection machine using OpenCV (size, colour, training-set detection) to identify and sort Indian currency denominations, combining mechanical design with computer vision.
-          </p>
-          <div class="proj-meta">
-            <span class="proj-chip">OpenCV</span>
-            <span class="proj-chip">Python</span>
-            <span class="proj-chip">Mechatronics</span>
-            <span class="proj-chip">Vision</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="proj-card reveal reveal-d2">
-        <div class="proj-card-img">
-          <div class="img-glow"></div>
-          <span class="icon">🚁</span>
-        </div>
-        <div class="proj-card-body">
-          <span class="proj-tag">UAV / Composites · 2023–2025</span>
-          <h3 class="proj-title">Drone R&amp;D — Carbon Composite Platforms</h3>
-          <p class="proj-desc">
-            At Raphe mPhibr, contributed to drone R&amp;D — designing carbon fibre plates, moulds for prepreg layup, and generating CNC CAM files, directly reducing production cycle time and improving structural durability.
-          </p>
-          <div class="proj-meta">
-            <span class="proj-chip">Carbon Fibre</span>
-            <span class="proj-chip">CNC / CAM</span>
-            <span class="proj-chip">SolidWorks</span>
-            <span class="proj-chip">UAV</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <p class="projects-subhead reveal">Scroll to rotate through each project — built under real-world constraints with patients and people in mind.</p>
   </div>
+
+  <!-- Scroll-driven cube track -->
+  <div class="cube-track" id="projTrack">
+    <div class="cube-sticky-wrap">
+
+      <!-- Progress bar -->
+      <div class="proj-progress-bar"><div class="proj-progress-fill" id="projFill"></div></div>
+
+      <!-- Counter -->
+      <div class="proj-counter">
+        <span id="projCurrent">01</span>
+        <span class="proj-counter-sep">/</span>
+        <span id="projTotal">06</span>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="proj-scroll-hint" id="projScrollHint">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        Scroll to explore
+      </div>
+
+      <!-- Left dots -->
+      <div class="proj-dots" id="projDots">
+        <button class="proj-dot active" data-idx="0"></button>
+        <button class="proj-dot" data-idx="1"></button>
+        <button class="proj-dot" data-idx="2"></button>
+        <button class="proj-dot" data-idx="3"></button>
+        <button class="proj-dot" data-idx="4"></button>
+        <button class="proj-dot" data-idx="5"></button>
+      </div>
+
+      <!-- Right project name labels -->
+      <div class="proj-labels">
+        <span class="proj-label-item active">Vento-Monitor</span>
+        <span class="proj-label-item">O₂ Concentrator</span>
+        <span class="proj-label-item">SG3D i4.0</span>
+        <span class="proj-label-item">Gesture Robot</span>
+        <span class="proj-label-item">Dhanrakshak</span>
+        <span class="proj-label-item">Drone R&amp;D</span>
+      </div>
+
+      <!-- 3D Scene -->
+      <div class="proj-scene">
+        <div class="proj-cube-glow"></div>
+        <div class="proj-cube-wrapper">
+          <div class="proj-cube" id="projCube">
+
+            <!-- FACE 0 — front -->
+            <div class="proj-face proj-face--front">
+              <div class="pf-glow"></div>
+              <div class="pf-inner">
+                <div class="pf-icon">🫁</div>
+                <div class="pf-tag">Medical Device · 2021–2022</div>
+                <h3 class="pf-title">Vento-Monitor</h3>
+                <p class="pf-sub">Intelligent Ventilator</p>
+                <p class="pf-desc">Smart ventilator with GPRS patient tracking &amp; QR-code remote physician access. Adjustable PIP, PEEP, O₂ &amp; BPM — with a 7&quot; touch UI. Low-cost hospital deployment.</p>
+                <div class="pf-chips">
+                  <span>GPRS</span><span>Embedded C</span><span>Sensors</span><span>Mech. Design</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- FACE 1 — right -->
+            <div class="proj-face proj-face--right">
+              <div class="pf-glow"></div>
+              <div class="pf-inner">
+                <div class="pf-icon">💨</div>
+                <div class="pf-tag">Medical Device · 2021–2022</div>
+                <h3 class="pf-title">Oxygen Concentrator</h3>
+                <p class="pf-sub">Portable · 30 L/min</p>
+                <p class="pf-desc">Auto breath detection, pressure control &amp; adjustable LPM. Embedded SpO₂ / O₂ / pressure monitoring — compact &amp; low-cost for emerging markets.</p>
+                <div class="pf-chips">
+                  <span>SpO₂</span><span>Pressure Control</span><span>DFM</span><span>Embedded</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- FACE 2 — back -->
+            <div class="proj-face proj-face--back">
+              <div class="pf-glow"></div>
+              <div class="pf-inner">
+                <div class="pf-icon">🖨️</div>
+                <div class="pf-tag">Additive Mfg · 2019</div>
+                <h3 class="pf-title">SG3D i4.0</h3>
+                <p class="pf-sub">Multi-Material 3D Printer</p>
+                <p class="pf-desc">310×310×800 mm FDM printer for PETG, ABS, PLA, carbon fibre &amp; diamond filament. Patented extrusion system — used for prosthetics &amp; surgical models.</p>
+                <div class="pf-chips">
+                  <span>Patent IP</span><span>Firmware</span><span>CAD</span><span>Prosthetics</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- FACE 3 — left -->
+            <div class="proj-face proj-face--left">
+              <div class="pf-glow"></div>
+              <div class="pf-inner">
+                <div class="pf-icon">🤚</div>
+                <div class="pf-tag">Robotics · 2018</div>
+                <h3 class="pf-title">Gesture Robot</h3>
+                <p class="pf-sub">Flex-Sensor Controlled · 15 kg</p>
+                <p class="pf-desc">Built from scratch — no prior coding. Flex-sensor glove drives a 15 kg robot at 200–300 m range. Later evolved into a wall-climbing cleaning robot.</p>
+                <div class="pf-chips">
+                  <span>Flex Sensors</span><span>Embedded C</span><span>Kinematics</span><span>RF</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- FACE 4 — top -->
+            <div class="proj-face proj-face--top">
+              <div class="pf-glow"></div>
+              <div class="pf-inner">
+                <div class="pf-icon">💴</div>
+                <div class="pf-tag">Automation · 2021</div>
+                <h3 class="pf-title">Dhanrakshak</h3>
+                <p class="pf-sub">Currency Sanitising &amp; Sorting</p>
+                <p class="pf-desc">Self-sanitising machine using OpenCV (size, colour, training-set) to identify &amp; sort Indian currency denominations — mechanical design meets computer vision.</p>
+                <div class="pf-chips">
+                  <span>OpenCV</span><span>Python</span><span>Mechatronics</span><span>Vision</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- FACE 5 — bottom -->
+            <div class="proj-face proj-face--bottom">
+              <div class="pf-glow"></div>
+              <div class="pf-inner">
+                <div class="pf-icon">🚁</div>
+                <div class="pf-tag">UAV · 2023–2025</div>
+                <h3 class="pf-title">Drone R&amp;D</h3>
+                <p class="pf-sub">Carbon Composite Platforms</p>
+                <p class="pf-desc">At Raphe mPhibr — designed carbon fibre plates, prepreg layup moulds &amp; CNC CAM files, cutting production cycle time and improving structural durability of drone airframes.</p>
+                <div class="pf-chips">
+                  <span>Carbon Fibre</span><span>CNC/CAM</span><span>SolidWorks</span><span>UAV</span>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /proj-cube -->
+        </div><!-- /proj-cube-wrapper -->
+      </div><!-- /proj-scene -->
+
+    </div><!-- /cube-sticky-wrap -->
+  </div><!-- /cube-track -->
+
 </section>
 
 <div class="divider"></div>
@@ -1543,14 +2008,14 @@ footer .container{
             <div class="contact-icon">✉️</div>
             <div>
               <div class="contact-info-label">Primary Email</div>
-              <a class="contact-info-val" href="mailto:sattitanuj3@gmail.com">sattitanuj3@gmail.com</a>
+              <a class="contact-info-val" href="/cdn-cgi/l/email-protection#74071500001d00151a011e47341319151d185a171b19"><span class="__cf_email__" data-cfemail="2a594b5e5e435e4b445f40196a4d474b434604494547">[email&#160;protected]</span></a>
             </div>
           </li>
           <li>
             <div class="contact-icon">📧</div>
             <div>
               <div class="contact-info-label">Secondary Email</div>
-              <a class="contact-info-val" href="mailto:tanujsatti59@gmail.com">tanujsatti59@gmail.com</a>
+              <a class="contact-info-val" href="/cdn-cgi/l/email-protection#a3d7c2cdd6c9d0c2d7d7ca969ae3c4cec2cacf8dc0ccce"><span class="__cf_email__" data-cfemail="e99d88879c839a889d9d80dcd0a98e84888085c78a8684">[email&#160;protected]</span></a>
             </div>
           </li>
           <li>
@@ -1614,7 +2079,7 @@ footer .container{
       <a href="https://www.linkedin.com/in/tanuj-satti-387776164" target="_blank" class="social-link" title="LinkedIn">
         <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
       </a>
-      <a href="mailto:sattitanuj3@gmail.com" class="social-link" title="Email">
+      <a href="/cdn-cgi/l/email-protection#285b495c5c415c49465d421b684f45494144064b4745" class="social-link" title="Email">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </a>
       <a href="https://tanujsatti.github.io/TanujSatti" target="_blank" class="social-link" title="Portfolio">
@@ -1622,101 +2087,196 @@ footer .container{
       </a>
     </div>
   </div>
-</footer>
+</footer><script>
+/* =============================================
+   TANUJ SATTI — main.js
+   ============================================= */
 
-<script>
-// ---- Custom Cursor ----
+// ── Custom Cursor ──────────────────────────────
 const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let mx = -100, my = -100, rx = -100, ry = -100;
+const ring   = document.getElementById('cursor-ring');
+let mx = -200, my = -200, rx = -200, ry = -200;
 
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 
-function animCursor() {
+(function animCursor() {
   rx += (mx - rx) * 0.15;
   ry += (my - ry) * 0.15;
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  if (cursor) { cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; }
+  if (ring)   { ring.style.left   = rx + 'px'; ring.style.top   = ry + 'px'; }
   requestAnimationFrame(animCursor);
-}
-animCursor();
+})();
 
-// ---- Scroll Reveal ----
-const revealEls = document.querySelectorAll('.reveal');
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+
+// ── Scroll Reveal ──────────────────────────────
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-revealEls.forEach(el => revealObs.observe(el));
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-// ---- Competency Bar Animation ----
-const fills = document.querySelectorAll('.comp-fill');
-const barObs = new IntersectionObserver((entries) => {
+
+// ── Competency Bars ────────────────────────────
+const barObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if(e.isIntersecting) {
-      const el = e.target;
-      const w = parseFloat(el.dataset.width);
-      el.style.transform = `scaleX(${w})`;
-      el.classList.add('animated');
-      barObs.unobserve(el);
+    if (e.isIntersecting) {
+      e.target.style.transform = `scaleX(${parseFloat(e.target.dataset.width)})`;
+      barObs.unobserve(e.target);
     }
   });
 }, { threshold: 0.5 });
-fills.forEach(f => barObs.observe(f));
+document.querySelectorAll('.comp-fill').forEach(f => barObs.observe(f));
 
-// ---- Nav active highlight ----
-const navLinks = document.querySelectorAll('.nav-links a');
-const sections = document.querySelectorAll('section[id]');
+
+// ── Active Nav ─────────────────────────────────
 window.addEventListener('scroll', () => {
-  const scrollPos = window.scrollY + 100;
-  sections.forEach(sec => {
-    if (scrollPos >= sec.offsetTop && scrollPos < sec.offsetTop + sec.offsetHeight) {
-      navLinks.forEach(a => a.classList.remove('active'));
-      const match = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
-      if(match) match.classList.add('active');
+  const y = window.scrollY + 120;
+  document.querySelectorAll('section[id]').forEach(sec => {
+    if (y >= sec.offsetTop && y < sec.offsetTop + sec.offsetHeight) {
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      const m = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
+      if (m) m.classList.add('active');
     }
   });
-}, {passive:true});
+}, { passive: true });
 
-// ---- Contact form ----
+
+// ── Contact Form ───────────────────────────────
 function handleFormSubmit(e) {
   e.preventDefault();
-  const name = document.getElementById('cf-name').value.trim();
-  const email = document.getElementById('cf-email').value.trim();
+  const name    = document.getElementById('cf-name').value.trim();
+  const email   = document.getElementById('cf-email').value.trim();
   const subject = document.getElementById('cf-subject').value.trim();
   const message = document.getElementById('cf-message').value.trim();
-  if(!name || !email || !message) { alert('Please fill in all required fields.'); return; }
-  const mailto = `mailto:sattitanuj3@gmail.com?subject=${encodeURIComponent(subject||'Portfolio Enquiry')}&body=${encodeURIComponent(`From: ${name} <${email}>\n\n${message}`)}`;
-  window.location.href = mailto;
+  if (!name || !email || !message) { alert('Please fill in all required fields.'); return; }
+  window.location.href = `mailto:sattitanuj3@gmail.com?subject=${encodeURIComponent(subject||'Portfolio Enquiry')}&body=${encodeURIComponent('From: '+name+' <'+email+'>\n\n'+message)}`;
 }
 
-// ---- Typed hero kicker ----
+
+// ── Typed Eyebrow ──────────────────────────────
 const typedTarget = document.querySelector('.hero-eyebrow');
-if(typedTarget) {
+if (typedTarget) {
   const phrases = ['Robotics Engineer & Inventor','Medical Device Designer','Mechatronics Researcher','Open to Opportunities'];
   let pi = 0, ci = 0, typing = true;
   function typeLoop() {
     const phrase = phrases[pi];
-    if(typing) {
-      ci++;
-      if(ci === phrase.length) { typing = false; setTimeout(typeLoop, 1800); typedTarget.innerHTML = `<span style="display:inline-block;width:32px;height:1px;background:var(--green);vertical-align:middle;margin-right:12px"></span>${phrase}`; return; }
-    } else {
-      ci--;
-      if(ci === 0) { typing = true; pi = (pi+1)%phrases.length; }
-    }
-    typedTarget.innerHTML = `<span style="display:inline-block;width:32px;height:1px;background:var(--green);vertical-align:middle;margin-right:12px"></span>${phrase.slice(0,ci)}`;
-    setTimeout(typeLoop, typing ? 60 : 30);
+    if (typing) { ci++; if (ci === phrase.length) { typing = false; typedTarget.textContent = phrase; setTimeout(typeLoop, 1800); return; } }
+    else { ci--; if (ci === 0) { typing = true; pi = (pi+1)%phrases.length; } }
+    typedTarget.textContent = phrase.slice(0, ci);
+    setTimeout(typeLoop, typing ? 55 : 28);
   }
-  setTimeout(typeLoop, 1200);
+  setTimeout(typeLoop, 900);
 }
 
-// ---- Parallax orbs ----
+
+// ── Hero Parallax ──────────────────────────────
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
   const o1 = document.querySelector('.hero-orb-1');
   const o2 = document.querySelector('.hero-orb-2');
-  if(o1) o1.style.transform = `translateY(${y*0.2}px)`;
-  if(o2) o2.style.transform = `translateY(${-y*0.15}px)`;
-},{passive:true});
+  if (o1) o1.style.transform = `translateY(${y*0.18}px)`;
+  if (o2) o2.style.transform = `translateY(${-y*0.12}px)`;
+}, { passive: true });
+
+
+/* =============================================
+   SCROLL-DRIVEN 3D PROJECT CUBE
+   =============================================
+   Rotation to show each face:
+     front  → rotateX(0)   rotateY(0)
+     right  → rotateX(0)   rotateY(-90)
+     back   → rotateX(0)   rotateY(-180)
+     left   → rotateX(0)   rotateY(90)
+     top    → rotateX(90)  rotateY(0)
+     bottom → rotateX(-90) rotateY(0)
+   ============================================= */
+(function initCube() {
+  const track  = document.getElementById('projTrack');
+  const cube   = document.getElementById('projCube');
+  const fill   = document.getElementById('projFill');
+  const numEl  = document.getElementById('projCurrent');
+  const hint   = document.getElementById('projScrollHint');
+  const dots   = document.querySelectorAll('.proj-dot');
+  const labels = document.querySelectorAll('.proj-label-item');
+  if (!track || !cube) return;
+
+  const FACES = [
+    { rx:  0,  ry:   0 },
+    { rx:  0,  ry: -90 },
+    { rx:  0,  ry:-180 },
+    { rx:  0,  ry:  90 },
+    { rx: 90,  ry:   0 },
+    { rx:-90,  ry:   0 },
+  ];
+  const N = FACES.length;
+
+  // Smooth display state
+  let dispX = -15, dispY = 20;
+  let tgtX  = -15, tgtY  = 20;
+  let activeIdx = -1;
+  let wobT = 0;
+
+  function lerp(a, b, t) { return a + (b-a)*t; }
+
+  // Animation loop — runs always
+  (function tick() {
+    wobT += 0.007;
+    const wobX = Math.sin(wobT)        * 2.8;
+    const wobY = Math.sin(wobT * 0.63) * 4.0;
+    dispX = lerp(dispX, tgtX + wobX, 0.05);
+    dispY = lerp(dispY, tgtY + wobY, 0.05);
+    cube.style.transform = `rotateX(${dispX}deg) rotateY(${dispY}deg)`;
+    requestAnimationFrame(tick);
+  })();
+
+  function goToFace(idx) {
+    idx = Math.max(0, Math.min(N-1, idx));
+    if (idx === activeIdx) return;
+    activeIdx = idx;
+
+    tgtX = FACES[idx].rx;
+    tgtY = FACES[idx].ry;
+
+    if (fill)  fill.style.width  = ((idx/(N-1))*100).toFixed(1)+'%';
+    if (numEl) numEl.textContent = String(idx+1).padStart(2,'0');
+    dots.forEach((d,i)   => d.classList.toggle('active', i===idx));
+    labels.forEach((l,i) => l.classList.toggle('active', i===idx));
+
+    // Flash glow on the newly revealed face
+    const faceEls = cube.querySelectorAll('.proj-face');
+    if (faceEls[idx]) {
+      faceEls[idx].classList.add('face-flash');
+      setTimeout(() => faceEls[idx].classList.remove('face-flash'), 700);
+    }
+    if (idx > 0 && hint) hint.classList.add('hidden');
+  }
+
+  // Scroll handler
+  function onScroll() {
+    const rect      = track.getBoundingClientRect();
+    const trackTop  = window.scrollY + rect.top;
+    const scrolled  = window.scrollY - trackTop;
+    const maxScroll = track.offsetHeight - window.innerHeight;
+    if (scrolled < 0 || scrolled > maxScroll) return;
+    goToFace(Math.round((scrolled/maxScroll)*(N-1)));
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Dot clicks
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx   = parseInt(dot.dataset.idx, 10);
+      const rect  = track.getBoundingClientRect();
+      const start = window.scrollY + rect.top;
+      const segH  = (track.offsetHeight - window.innerHeight) / (N-1);
+      window.scrollTo({ top: start + idx*segH, behavior: 'smooth' });
+    });
+  });
+
+  onScroll();
+  goToFace(0);
+})();
+
 </script>
 </body>
 </html>
