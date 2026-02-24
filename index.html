@@ -1,981 +1,1722 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tanuj Satti — Robotics & Mechatronics Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<style>
+/*===========================================
+  DESIGN SYSTEM
+===========================================*/
+:root {
+  --black: #010203;
+  --dark: #07090f;
+  --surface: #0d1019;
+  --border: rgba(255,255,255,0.07);
+  --border-bright: rgba(255,255,255,0.14);
+  --green: #0df5a0;
+  --green-dim: rgba(13,245,160,0.15);
+  --green-glow: rgba(13,245,160,0.4);
+  --white: #f0f4ff;
+  --muted: #6b7594;
+  --mid: #aab2ce;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
 
-  <title>Tanuj Satti</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon"> 
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+html{scroll-behavior:smooth;font-size:16px}
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+body{
+  font-family:var(--font-body);
+  background:var(--black);
+  color:var(--white);
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:none;
+}
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+::selection{background:var(--green);color:#000}
 
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+/* ---- Custom Cursor ---- */
+#cursor{
+  position:fixed;
+  width:12px;height:12px;
+  background:var(--green);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .2s,height .2s,background .2s;
+  mix-blend-mode:exclusion;
+}
+#cursor-ring{
+  position:fixed;
+  width:36px;height:36px;
+  border:1.5px solid rgba(13,245,160,0.5);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform .08s ease,width .3s,height .3s;
+}
+body:has(a:hover) #cursor,
+body:has(button:hover) #cursor{width:8px;height:8px;background:#fff}
+body:has(a:hover) #cursor-ring,
+body:has(button:hover) #cursor-ring{width:52px;height:52px}
 
-  </head>
+/* ---- Noise & BG ---- */
+.noise{
+  position:fixed;inset:0;
+  background-image:url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+  opacity:0.04;pointer-events:none;z-index:0;
+}
 
+/* ---- Typography ---- */
+.display{
+  font-family:var(--font-display);
+  letter-spacing:.03em;
+  line-height:.92;
+}
+.heading{
+  font-family:var(--font-head);
+  font-weight:700;
+  letter-spacing:-.03em;
+}
+
+/* ---- Layout ---- */
+.container{max-width:1160px;margin:0 auto;padding:0 32px}
+.section{padding:120px 0;position:relative}
+
+/* ---- Label Badge ---- */
+.label-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-head);
+  font-size:10px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--green);
+  border:1px solid rgba(13,245,160,0.3);
+  padding:5px 14px;border-radius:999px;
+  margin-bottom:32px;
+  background:rgba(13,245,160,0.05);
+}
+.label-badge::before{
+  content:'';width:5px;height:5px;
+  background:var(--green);border-radius:50%;
+  animation:blink 1.6s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+/*===========================================
+  NAV
+===========================================*/
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:68px;
+  background:rgba(1,2,3,0.6);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:background .3s;
+}
+.nav-logo{
+  font-family:var(--font-display);
+  font-size:26px;letter-spacing:.1em;
+  color:var(--white);
+  text-decoration:none;
+}
+.nav-logo span{color:var(--green)}
+.nav-links{
+  display:flex;align-items:center;gap:36px;
+  list-style:none;
+}
+.nav-links a{
+  font-family:var(--font-head);
+  font-size:12px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  transition:color .2s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-3px;left:0;
+  width:0;height:1px;background:var(--green);
+  transition:width .25s;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{width:100%}
+.nav-resume{
+  font-family:var(--font-head);
+  font-size:11px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:#000;background:var(--green);
+  padding:8px 20px;border-radius:6px;
+  text-decoration:none;
+  transition:opacity .2s,transform .2s;
+}
+.nav-resume:hover{opacity:.85;transform:translateY(-1px)}
+
+/*===========================================
+  HERO
+===========================================*/
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding-top:68px;
+  position:relative;overflow:hidden;
+}
+
+/* Animated background orbs */
+.hero-orb{
+  position:absolute;border-radius:50%;
+  filter:blur(80px);pointer-events:none;
+}
+.hero-orb-1{
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(13,245,160,0.18),transparent 70%);
+  top:-200px;left:-200px;
+  animation:float1 12s ease-in-out infinite;
+}
+.hero-orb-2{
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(80,120,255,0.12),transparent 70%);
+  bottom:0;right:-100px;
+  animation:float2 10s ease-in-out infinite;
+}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,-60px)}}
+
+/* Grid lines */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%);
+}
+
+.hero-inner{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1fr 360px;
+  gap:40px;align-items:center;
+  max-width:1160px;margin:0 auto;padding:0 32px;
+  width:100%;
+}
+
+.hero-eyebrow{
+  font-family:var(--font-head);
+  font-size:11px;font-weight:600;
+  letter-spacing:.25em;text-transform:uppercase;
+  color:var(--green);margin-bottom:24px;
+  display:flex;align-items:center;gap:12px;
+}
+.hero-eyebrow::before{
+  content:'';display:block;width:32px;height:1px;background:var(--green);
+}
+
+.hero-name{
+  font-size:clamp(72px,9vw,120px);
+  color:var(--white);
+  margin-bottom:0;
+  line-height:.88;
+}
+.hero-name em{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--green);
+  font-style:normal;
+}
+
+.hero-subtitle{
+  font-size:15px;line-height:1.7;
+  color:var(--mid);
+  max-width:500px;
+  margin:28px 0 36px;
+}
+
+.hero-tags{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;
+}
+.tag{
+  font-family:var(--font-head);
+  font-size:11px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:6px 14px;border-radius:4px;
+  border:1px solid var(--border-bright);
+  color:var(--mid);
+  background:rgba(255,255,255,0.03);
+}
+
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-head);
+  font-size:12px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:14px 28px;border-radius:6px;
+  background:var(--green);color:#000;
+  text-decoration:none;
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(13,245,160,0.3)}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-head);
+  font-size:12px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:13px 28px;border-radius:6px;
+  border:1px solid var(--border-bright);
+  color:var(--white);text-decoration:none;
+  background:rgba(255,255,255,0.04);
+  transition:border-color .2s,background .2s,transform .2s;
+}
+.btn-outline:hover{border-color:var(--green);background:rgba(13,245,160,0.05);transform:translateY(-2px)}
+
+/* Hero right card */
+.hero-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:28px;
+  position:relative;
+  overflow:hidden;
+}
+.hero-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+}
+.hero-card-label{
+  font-family:var(--font-head);
+  font-size:10px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:20px;
+}
+.hero-stat-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  margin-bottom:20px;
+}
+.hero-stat{
+  background:rgba(255,255,255,0.04);
+  border-radius:10px;padding:14px;
+  border:1px solid var(--border);
+}
+.hero-stat-num{
+  font-family:var(--font-display);
+  font-size:38px;line-height:1;
+  color:var(--green);
+}
+.hero-stat-label{
+  font-size:11px;color:var(--muted);margin-top:4px;
+  font-family:var(--font-head);letter-spacing:.08em;
+}
+.hero-status{
+  display:flex;align-items:center;gap:10px;
+  padding:12px;background:rgba(13,245,160,0.07);
+  border-radius:8px;border:1px solid rgba(13,245,160,0.2);
+}
+.status-dot{
+  width:8px;height:8px;background:var(--green);
+  border-radius:50%;flex-shrink:0;
+  box-shadow:0 0 8px var(--green-glow);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 6px var(--green-glow)}50%{box-shadow:0 0 20px var(--green-glow)}}
+.status-text{font-size:12px;color:var(--white);font-family:var(--font-head);font-weight:500}
+.status-sub{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* Scroll indicator */
+.scroll-hint{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-family:var(--font-head);
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);z-index:2;
+}
+.scroll-line{
+  width:1px;height:48px;
+  background:linear-gradient(var(--green),transparent);
+  animation:scrollAnim 2s ease-in-out infinite;
+}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/*===========================================
+  MARQUEE
+===========================================*/
+.marquee-wrap{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:20px 0;
+  overflow:hidden;
+  background:rgba(13,245,160,0.03);
+}
+.marquee-track{
+  display:flex;gap:0;
+  animation:marquee 28s linear infinite;
+  width:max-content;
+}
+.marquee-item{
+  display:flex;align-items:center;gap:36px;
+  padding:0 36px;
+  font-family:var(--font-display);
+  font-size:22px;letter-spacing:.1em;
+  color:var(--muted);
+  white-space:nowrap;
+}
+.marquee-dot{width:5px;height:5px;background:var(--green);border-radius:50%;flex-shrink:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/*===========================================
+  ABOUT
+===========================================*/
+#about .about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:start;
+}
+#about h2{
+  font-family:var(--font-display);
+  font-size:clamp(48px,6vw,72px);
+  line-height:.92;
+  margin-bottom:24px;
+  color:var(--white);
+}
+#about h2 span{color:var(--green)}
+#about .about-body{
+  font-size:15px;line-height:1.78;
+  color:var(--mid);
+  margin-bottom:28px;
+}
+
+.about-highlights{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  margin-top:8px;
+}
+.ah-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:16px;border-radius:10px;
+  background:var(--surface);
+  border:1px solid var(--border);
+}
+.ah-icon{
+  width:32px;height:32px;border-radius:8px;
+  background:var(--green-dim);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;margin-top:1px;
+}
+.ah-title{font-family:var(--font-head);font-size:12px;font-weight:600;color:var(--white)}
+.ah-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* Right column — info list */
+.about-right-title{
+  font-family:var(--font-head);
+  font-size:18px;font-weight:700;
+  color:var(--white);margin-bottom:20px;
+  letter-spacing:-.02em;
+}
+.info-list{list-style:none;margin-bottom:32px}
+.info-list li{
+  display:flex;justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+  gap:20px;
+}
+.info-list li:first-child{border-top:1px solid var(--border)}
+.info-key{
+  font-family:var(--font-head);font-size:11px;font-weight:600;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);
+  flex-shrink:0;
+}
+.info-val{font-size:13px;color:var(--white);text-align:right;line-height:1.5}
+
+.languages-row{
+  display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;
+}
+.lang-pill{
+  font-family:var(--font-head);
+  font-size:11px;font-weight:600;
+  padding:6px 14px;border-radius:999px;
+  border:1px solid var(--border-bright);
+  color:var(--mid);
+}
+.lang-pill.fluent{border-color:rgba(13,245,160,0.4);color:var(--green);background:rgba(13,245,160,0.07)}
+
+.about-links{display:flex;gap:12px;flex-wrap:wrap}
+.link-chip{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--font-head);
+  font-size:12px;font-weight:500;
+  color:var(--white);
+  text-decoration:none;
+  padding:9px 18px;border-radius:8px;
+  border:1px solid var(--border-bright);
+  background:rgba(255,255,255,0.04);
+  transition:border-color .2s,background .2s;
+}
+.link-chip:hover{border-color:var(--green);background:rgba(13,245,160,0.07)}
+.link-chip svg{opacity:.6}
+
+/*===========================================
+  EXPERIENCE
+===========================================*/
+#experience h2{
+  font-family:var(--font-display);
+  font-size:clamp(48px,5vw,64px);
+  color:var(--white);
+  margin-bottom:60px;
+  line-height:.92;
+}
+#experience h2 span{color:var(--green)}
+
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.exp-card{
+  padding:28px;border-radius:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s;
+}
+.exp-card:hover{border-color:rgba(13,245,160,0.3);transform:translateY(-4px)}
+.exp-card.featured{
+  grid-column:1/-1;
+  display:grid;grid-template-columns:1fr auto;
+  gap:20px;align-items:start;
+  background:linear-gradient(135deg,rgba(13,245,160,0.07),var(--surface));
+  border-color:rgba(13,245,160,0.2);
+}
+.exp-card.featured:hover{border-color:rgba(13,245,160,0.5)}
+.exp-label{
+  display:inline-block;
+  font-family:var(--font-head);
+  font-size:10px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  padding:3px 10px;border-radius:4px;
+  margin-bottom:14px;
+  background:rgba(13,245,160,0.12);
+  color:var(--green);
+}
+.exp-role{
+  font-family:var(--font-head);
+  font-size:18px;font-weight:700;
+  color:var(--white);margin-bottom:4px;
+  letter-spacing:-.02em;
+}
+.exp-company{font-size:13px;color:var(--green);margin-bottom:12px}
+.exp-period{
+  font-family:var(--font-head);
+  font-size:11px;font-weight:600;
+  letter-spacing:.12em;
+  color:var(--muted);
+  padding:5px 12px;border-radius:999px;
+  border:1px solid var(--border-bright);
+  white-space:nowrap;
+  align-self:flex-start;
+}
+.exp-bullets{list-style:none;margin-top:14px}
+.exp-bullets li{
+  font-size:13px;color:var(--mid);
+  padding:5px 0 5px 16px;
+  position:relative;
+  line-height:1.6;
+}
+.exp-bullets li::before{
+  content:'—';
+  position:absolute;left:0;
+  color:var(--green);font-size:11px;
+}
+
+/*===========================================
+  SKILLS
+===========================================*/
+#skills{background:var(--surface)}
+#skills .container{position:relative}
+#skills h2{
+  font-family:var(--font-display);
+  font-size:clamp(48px,5vw,64px);
+  color:var(--white);margin-bottom:60px;
+  line-height:.92;
+}
+#skills h2 span{color:var(--green)}
+
+.skills-cols{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+.skill-group{
+  border-top:2px solid transparent;
+  padding-top:20px;
+  transition:border-color .3s;
+}
+.skill-group:hover{border-top-color:var(--green)}
+.skill-group-title{
+  font-family:var(--font-head);
+  font-size:13px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--white);
+  margin-bottom:16px;
+}
+.skill-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.skill-list li{
+  font-size:13px;color:var(--mid);
+  display:flex;align-items:center;gap:8px;
+}
+.skill-list li::before{
+  content:'';
+  width:4px;height:4px;
+  border-radius:50%;
+  background:var(--green);
+  flex-shrink:0;opacity:.6;
+}
+
+/* Competency bars */
+.comp-section{margin-top:60px}
+.comp-title{
+  font-family:var(--font-head);
+  font-size:12px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:24px;
+}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 48px}
+.comp-item{margin-bottom:4px}
+.comp-header{
+  display:flex;justify-content:space-between;
+  margin-bottom:7px;
+}
+.comp-name{font-size:13px;color:var(--white);font-family:var(--font-head);font-weight:500}
+.comp-pct{font-size:12px;color:var(--green);font-family:var(--font-display);letter-spacing:.05em}
+.comp-bar{
+  height:3px;background:rgba(255,255,255,0.07);
+  border-radius:999px;overflow:hidden;
+}
+.comp-fill{
+  height:100%;background:linear-gradient(90deg,var(--green),rgba(13,245,160,0.4));
+  border-radius:999px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 1.2s cubic-bezier(.16,1,.3,1);
+}
+.comp-fill.animated{transform:scaleX(1)}
+
+/*===========================================
+  PROJECTS
+===========================================*/
+#projects h2{
+  font-family:var(--font-display);
+  font-size:clamp(48px,5vw,64px);
+  color:var(--white);
+  line-height:.92;
+}
+#projects h2 span{color:var(--green)}
+.projects-subhead{
+  font-size:15px;color:var(--muted);
+  margin-top:16px;margin-bottom:60px;
+  max-width:460px;
+}
+
+.projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.proj-card{
+  border-radius:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  overflow:hidden;
+  transition:transform .3s,border-color .3s;
+  position:relative;
+  display:flex;flex-direction:column;
+}
+.proj-card:hover{transform:translateY(-6px);border-color:rgba(13,245,160,0.3)}
+.proj-card.large{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;}
+.proj-card-img{
+  height:220px;
+  background:linear-gradient(135deg,#0a1020,#050c18);
+  display:flex;align-items:center;justify-content:center;
+  font-size:56px;
+  flex-shrink:0;
+  overflow:hidden;
+  position:relative;
+}
+.proj-card.large .proj-card-img{height:auto;min-height:280px}
+.proj-card-img .img-glow{
+  position:absolute;inset:0;
+  background:radial-gradient(circle at center,rgba(13,245,160,0.12),transparent 70%);
+}
+.proj-card-img .icon{position:relative;z-index:1;font-size:64px;filter:drop-shadow(0 0 20px rgba(13,245,160,0.4))}
+.proj-card-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.proj-tag{
+  display:inline-block;
+  font-family:var(--font-head);
+  font-size:10px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--green);
+  margin-bottom:10px;
+}
+.proj-title{
+  font-family:var(--font-head);
+  font-size:18px;font-weight:700;
+  color:var(--white);
+  margin-bottom:10px;
+  letter-spacing:-.02em;
+}
+.proj-desc{font-size:13px;color:var(--mid);line-height:1.65;flex:1}
+.proj-meta{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid var(--border);
+}
+.proj-chip{
+  font-family:var(--font-head);
+  font-size:10px;font-weight:600;
+  letter-spacing:.1em;
+  padding:4px 10px;border-radius:4px;
+  background:rgba(255,255,255,0.05);
+  color:var(--mid);
+}
+
+/*===========================================
+  PATENTS
+===========================================*/
+#patents{background:var(--surface)}
+#patents h2{
+  font-family:var(--font-display);
+  font-size:clamp(48px,5vw,64px);
+  color:var(--white);line-height:.92;
+  margin-bottom:12px;
+}
+#patents h2 span{color:var(--green)}
+.patents-sub{font-size:15px;color:var(--muted);margin-bottom:48px}
+.patents-table{width:100%;border-collapse:collapse}
+.patents-table th{
+  font-family:var(--font-head);
+  font-size:10px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);
+  padding:12px 16px;
+  text-align:left;
+  border-bottom:1px solid var(--border-bright);
+}
+.patents-table td{
+  padding:14px 16px;
+  font-size:13px;color:var(--mid);
+  border-bottom:1px solid var(--border);
+  vertical-align:top;
+}
+.patents-table tr:hover td{background:rgba(255,255,255,0.02)}
+.patent-title{color:var(--white);font-weight:500}
+.patent-country{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--font-head);font-size:11px;font-weight:600;
+  color:var(--mid);
+}
+.status-granted{color:var(--green)}
+.status-published{color:#6ab0ff}
+.status-filed{color:#f5a623}
+.ip-num{font-family:var(--font-head);font-size:11px;color:var(--muted)}
+
+/*===========================================
+  TESTIMONIALS
+===========================================*/
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.testi-card{
+  padding:24px;border-radius:14px;
+  background:var(--surface);border:1px solid var(--border);
+}
+.testi-quote{
+  font-size:13px;color:var(--mid);
+  line-height:1.7;margin-bottom:20px;
+  font-style:italic;
+}
+.testi-quote::before{content:'"';color:var(--green);font-size:28px;font-family:Georgia,serif;line-height:0;vertical-align:-10px;margin-right:4px}
+.testi-author{
+  display:flex;flex-direction:column;gap:2px;
+  padding-top:16px;border-top:1px solid var(--border);
+}
+.testi-name{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--white)}
+.testi-role{font-size:11px;color:var(--muted)}
+
+/*===========================================
+  CONTACT
+===========================================*/
+#contact{overflow:hidden}
+.contact-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;
+}
+#contact h2{
+  font-family:var(--font-display);
+  font-size:clamp(56px,6vw,80px);
+  color:var(--white);line-height:.88;
+  margin-bottom:24px;
+}
+#contact h2 span{color:var(--green)}
+.contact-desc{font-size:15px;color:var(--mid);line-height:1.7;margin-bottom:36px}
+.contact-list{list-style:none;margin-bottom:36px}
+.contact-list li{
+  display:flex;align-items:center;gap:16px;
+  padding:16px 0;border-bottom:1px solid var(--border);
+}
+.contact-list li:first-child{border-top:1px solid var(--border)}
+.contact-icon{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--green-dim);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.contact-info-label{
+  font-family:var(--font-head);font-size:10px;font-weight:600;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2px;
+}
+.contact-info-val{
+  font-size:13px;color:var(--white);text-decoration:none;
+}
+.contact-info-val:hover{color:var(--green)}
+
+.contact-form{
+  padding:32px;border-radius:16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.contact-form::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-field{margin-bottom:16px}
+.form-field label{
+  display:block;
+  font-family:var(--font-head);
+  font-size:10px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;
+}
+.form-field input,
+.form-field textarea{
+  width:100%;padding:12px 14px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border-bright);
+  border-radius:8px;
+  color:var(--white);font-family:var(--font-body);font-size:14px;
+  outline:none;resize:vertical;
+  transition:border-color .2s;
+}
+.form-field input:focus,
+.form-field textarea:focus{border-color:var(--green)}
+.form-field textarea{min-height:120px}
+.btn-submit{
+  width:100%;padding:14px;
+  background:var(--green);color:#000;
+  border:none;border-radius:8px;
+  font-family:var(--font-head);font-size:13px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;
+  transition:opacity .2s,transform .2s,box-shadow .2s;
+}
+.btn-submit:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 12px 40px rgba(13,245,160,0.3)}
+
+/*===========================================
+  FOOTER
+===========================================*/
+footer{
+  border-top:1px solid var(--border);
+  padding:28px 0;
+}
+footer .container{
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-logo{
+  font-family:var(--font-display);
+  font-size:22px;letter-spacing:.08em;color:var(--white);
+}
+.footer-logo span{color:var(--green)}
+.footer-copy{font-size:12px;color:var(--muted)}
+.footer-socials{display:flex;gap:12px}
+.social-link{
+  width:34px;height:34px;border-radius:8px;
+  border:1px solid var(--border-bright);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--mid);text-decoration:none;font-size:14px;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.social-link:hover{border-color:var(--green);color:var(--green);background:rgba(13,245,160,0.07)}
+
+/*===========================================
+  SCROLL REVEAL
+===========================================*/
+.reveal{
+  opacity:0;transform:translateY(30px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1),
+             transform .7s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}
+.reveal-d4{transition-delay:.4s}
+
+/*===========================================
+  SECTION DIVIDER
+===========================================*/
+.divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border-bright),transparent);
+  margin:0;
+}
+
+/*===========================================
+  RESPONSIVE
+===========================================*/
+@media(max-width:1024px){
+  .skills-cols{grid-template-columns:repeat(2,1fr)}
+  .comp-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:900px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-card{display:none}
+  #about .about-grid{grid-template-columns:1fr}
+  .exp-grid{grid-template-columns:1fr}
+  .exp-card.featured{grid-column:auto;grid-template-columns:1fr;gap:12px}
+  .projects-grid{grid-template-columns:1fr}
+  .proj-card.large{grid-column:auto;grid-template-columns:1fr}
+  .proj-card.large .proj-card-img{height:200px}
+  .contact-wrap{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .container{padding:0 20px}
+  .hero-name{font-size:58px}
+  #about h2,#experience h2,#skills h2,#projects h2,#patents h2,#contact h2{font-size:44px}
+  .about-highlights{grid-template-columns:1fr}
+  .section{padding:80px 0}
+}
+</style>
+</head>
 <body>
 
-  <body>
-  <!-- ======= Header ======= -->
-  <header id="header">
-    <div class="container">
+<div class="noise"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-      <h1><a href="index.html">Tanuj Satti</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <a href="index.html" class="mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>
-      <h2>I'm a <span class="typed"> Mechanical Engineer </span>looking for opportunity in:<br> <span> Research and Development</span>,<br><span> Automation, <br>Designing </span>in the field of robotics and automation</h2>
+<!-- ===== NAV ===== -->
+<nav>
+  <a href="#" class="nav-logo">T<span>S</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#patents">Patents</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:sattitanuj3@gmail.com" class="nav-resume">Hire Me</a>
+</nav>
 
-      <!--<h1> <b><underline>My Vision 2022</underline></b></h1> 
-            <h2>To learn and let the people experience the power of technology</h2>-->
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link active" href="#header">Home</a></li>
-          <li><a class="nav-link" href="#about">About</a></li>
-          <li><a class="nav-link" href="#resume">Resume</a></li>
-          <li><a class="nav-link" href="#services">Projects & Patents</a></li>
-          <li><a class="nav-link" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link" href="#contact">Contact</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav>
-      <!-- .navbar -->
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-grid"></div>
 
-      <div class="social-links">
-        <a href="https://www.linkedin.com/in/tanuj-satti-387776164" class="linkedin"><i class="bi bi-linkedin"></i></a>
-        <a href="Resume.Tanuj.pdf"><i class="bi bi-download"></i></a>
-        <!-- <a href="https://wa.me/+918368685792" class="google-plus"><i class="bi bi-whatsapp"></i></a> -->
+  <div class="hero-inner">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Robotics Engineer &amp; Inventor</p>
+      <h1 class="hero-name display">
+        Tanuj<br>
+        <em>Satti</em>
+      </h1>
+      <p class="hero-subtitle">
+        M.Sc. Mechatronics &amp; Cyber-Physical Systems student at THD Deggendorf — 
+        designing medical devices, assistive robotics, and intelligent systems that put people first.
+      </p>
+      <div class="hero-tags">
+        <span class="tag">Medical Robotics</span>
+        <span class="tag">Embedded Systems</span>
+        <span class="tag">CAD / CAM</span>
+        <span class="tag">ROS 2</span>
+        <span class="tag">Computer Vision</span>
+        <span class="tag">9+ Patents</span>
       </div>
-
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          View Projects
+        </a>
+        <a href="#contact" class="btn-outline">Let's Collaborate</a>
+      </div>
     </div>
-    
-  </header>
-  <!-- End Header -->
-      
 
-  </section>
-
-
-  <!-- ======= About Section ======= -->
-  <section id="about" class="about">
-
-    <!-- ======= About Me ======= -->
-    <div class="about-me container">
-
-      <div class="section-title">
-        <h2><i class="fas fa-times-octagon">About</i></h2>
-        <p>Know about me: </p>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-4" data-aos="fade-right">
-          <img src="assets/img/me.jpg" class="img-fluid" alt="">
+    <div class="hero-card reveal">
+      <p class="hero-card-label">At a Glance</p>
+      <div class="hero-stat-row">
+        <div class="hero-stat">
+          <div class="hero-stat-num">9+</div>
+          <div class="hero-stat-label">Patents Filed</div>
         </div>
-        <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
-          <h2>Masters Student @THD I Mechanical Engineer I Roboticist I Inventor</h2>
-          
-          <h3>"Motto"</h3>
-          <p class="fst-italic">
-            Life is not about finding yourself. It's about creating yourself.
-          </p>
-          <h3>"Vision"</h3>
-          <p class="fst-italic">
-            Empowering lives with techological advancements and learning new technology.
-          </p>
-          <div class="row">
-            <div class="col-lg-6">
-              <ul>
-                <!--<li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>22</span></li>--->
-                <!--<li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>6 July, 2000</span></li>-->
-               <!---- <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span></span></li>-->
-                <!--<li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>+91 8368685792</span></li>-->
-                <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span> Deggendorf, Germany</span></li>
-              </ul>
-            </div>
-            <div class="col-lg-6">
-              <ul>
-               
-                <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>Bachelors in Technology Mechanical Engineering</span></li>
-                <li><i class="bi bi-chevron-right"></i> <strong>Mail Id:</strong> <span>sattitanuj3@gmail.com</span></li>
-                <li><i class="bi bi-chevron-right"></i> <strong><b>Actively Looking for: </strong></b> <span>Internship / Werkstudent</span></li>
-                
-              </ul>
-            </div>
-          </div>
-          <p>
-           
+        <div class="hero-stat">
+          <div class="hero-stat-num">7+</div>
+          <div class="hero-stat-label">Key Projects</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">2+</div>
+          <div class="hero-stat-label">Years Industry</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">4</div>
+          <div class="hero-stat-label">Countries</div>
         </div>
       </div>
-
+      <div class="hero-status">
+        <div class="status-dot"></div>
+        <div>
+          <div class="status-text">Open to Opportunities</div>
+          <div class="status-sub">Internship · Werkstudent · Research</div>
+        </div>
+      </div>
     </div>
-    <!-- End About Me -->
-
-    <!-- ======= Counts ======= -->
-    <div class="counts container">
-
-      <div class="row">
-
-        <div class="col-lg-3 col-md-6">
-          <div class="count-box">
-            <i class="bi bi-emoji-smile"></i>
-            <span data-purecounter-start="0" data-purecounter-end="6" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Project</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
-          <div class="count-box">
-            <i class="bi bi-journal-richtext"></i>
-            <span data-purecounter-start="0" data-purecounter-end="9" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Patents</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-          <div class="count-box">
-            <i class="bi bi-headset"></i>
-            <span data-purecounter-start="0" data-purecounter-end="6" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Designs</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-          <div class="count-box">
-            <i class="bi bi-award"></i>
-            <span data-purecounter-start="0" data-purecounter-end="14" data-purecounter-duration="1" class="purecounter"></span>
-            <p>Certifications</p>
-          </div>
-        </div>
-
-      </div>
-
-    </div><!-- End Counts -->
-
-    <!-- ======= Skills  ======= -->
-    <div class="skills container">
-
-      <div class="section-title">
-        <h2>Skills</h2>
-      </div>
-
-      <div class="row skills-content">
-
-        <div class="col-lg-6">
-
-          <div class="progress">
-            <span class="skill"> UX Design <i class="val">70%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill"> Product interface <i class="val">70%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill"> Intellectual writting <i class="val">75%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          
-          <div class="progress">
-            <span class="skill"> Research and Development <i class="val">75%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          
-          <div class="progress">
-            <span class="skill"> Fusion 360 <i class="val">90%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill"> Solidworks <i class="val">90%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-lg-6">
-
-          <div class="progress">
-            <span class="skill"> Innovating <i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-
-          </div>  <div class="progress">
-            <span class="skill"> Augmented Reality <i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill"> Creative <i class="val">80%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill"> Tenacity <i class="val">90%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill"> Mimics <i class="val">90%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          <div class="progress">
-            <span class="skill"> Robo Studio <i class="val">70%</i></span>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-
-          
-        </div>
-
-      </div>
-
-    </div>
-    <!-- End Skills -->
-
-    <!-- ======= Interests ======= -->
-    <div class="interests container">
-
-      <div class="section-title">
-        <h2>Interests</h2>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 col-md-4">
-          <div class="icon-box">
-            <i class="ri-store-line" style="color: #ffbb2c;"></i>
-            <h3> Aesthetics </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-          <div class="icon-box">
-            <i class="ri-bar-chart-box-line" style="color: #5578ff;"></i>
-            <h3> Amputee mobilisation technology </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
-          <div class="icon-box">
-            <i class="ri-calendar-todo-line" style="color: #e80368;"></i>
-            <h3> Human ability enhancments </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4 mt-lg-0">
-          <div class="icon-box">
-            <i class="ri-paint-brush-line" style="color: #e361ff;"></i>
-            <h3> Product Development </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-database-2-line" style="color: #47aeff;"></i>
-            <h3> Additive Manufacturing </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-gradienter-line" style="color: #ffa76e;"></i>
-            <h3> Robotics </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-file-list-3-line" style="color: #11dbcf;"></i>
-            <h3> Prosthetics </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-price-tag-2-line" style="color: #4233ff;"></i>
-            <h3> Human machine interactions </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-anchor-line" style="color: #b2904f;"></i>
-            <h3> Hydraulics and Pneumatics </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-disc-line" style="color: #b20969;"></i>
-            <h3> Materials </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-base-station-line" style="color: #ff5828;"></i>
-            <h3> Ventilators </h3>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4 mt-4">
-          <div class="icon-box">
-            <i class="ri-fingerprint-line" style="color: #29cc61;"></i>
-            <h3> Medical Equipments </h3>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- End Interests -->
-
-    <!-- ======= Testimonials ======= -->
-    
-    <!-- ======= Testimonials ======= -->
-    <div class="testimonials container">
-
-      <div class="section-title">
-        <h2>Testimonials</h2>
-      </div>
-
-      <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
-        <div class="swiper-wrapper">
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <p>
-                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                Tanuj is a very curious and obidient individual.
-                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-              </p>
-              <img src="assets/img/testimonials/ms.jpg" class="testimonial-img" alt="">
-              <h3>Dr. Madan Chaturvedi </h3>
-              <h4>Former Senior Professor of Univ of Delhi,
-                Professor of Life Sciences,
-                Centre for Lateral Innovation, Creativity & Knowledge (CLICK)</h4>
-            </div>
-          </div>
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <p>
-                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                Tanuj is a very diligent young professional with impeccable attitude coupled with willingness to learn new skills. 
-                He is extremely methodical and breaks the problem into small bits and applies his knowledge, wisdom and 
-                conviction to solve challenges posed to him.
-                I wish him stupendous success in whatever he does for I believe a glorious career beckons him!
-                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-              </p>
-              <img src="assets/img/testimonials/raj.jpg" class="testimonial-img" alt="">
-              <h3>Dr. Rajneesh Wadhwa</h3>
-              <h4>External Affairs&amp; SGT University</h4>
-            </div>
-          </div><!-- End testimonial item -->
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <p>
-                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                 Tanuj Portrays a tenacious ability to overcome any complex proble given to him.
-                 Without any prior expertisein the field of medical he was able to portray good work by bulding a low cost ventilator.
-                 He exhibits a good sense of design knowledge and a good managerial skills.
-                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-              </p>
-              <!-- <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt=""> -->
-              <h3>Dr. Baljit Singh</h3>
-              <h4>HOD, department of anesthesiology &amp; SGT Hospital</h4>
-            </div>
-          </div><!-- End testimonial item -->
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <p>
-                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                Tanuj Has made Gesture Controlled robot along with his team in the first. 
-                Without having any prior knowldge to coding or designing he and his teammates were able to pull things off. Kudos to his team!
-                His team is great at coming to solution to any particular problem thrown at them.
-                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-              </p>
-              <img src="assets/img/testimonials/mn.jpg" class="testimonial-img" alt="">
-              <h3>Miss. Monika Deswal</h3>
-              <h4>Assistant Professor&amp; SGT University </h4>
-            </div>
-          </div><!-- End testimonial item -->
-
-
-        </div>
-        <div class="swiper-pagination"></div>
-      </div>
-
-      <div class="owl-carousel testimonials-carousel">
-
-      </div>
-
-    </div><!-- End Testimonials  -->
-
-  </section><!-- End About Section -->
-
-  <!-- ======= Resume Section ======= -->
-  <section id="resume" class="resume">
-    <div class="container">
-
-      <div class="section-title">
-        <h2><i class="fas fa-times-octagon">Resume</i></h2>
-        <p> Resume </p>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-6">
-          <h3 class="resume-title"> Summary </h3>
-          <div class="resume-item pb-0">
-            <h4>Tanuj Satti</h4>
-            <p><em>An Engineering graduate with strong desire to research new aspects of Robotics and merge it with human beings to enable maximum comfort and ease of doing work.</em></p>
-            <p>
-            <ul>
-              <li>SGT University, Gurugram</li>
-              <li>8368685792</li>
-              <li>tanujsatti59@gmail.com</li>
-            </ul>
-            </p>
-          </div>
-
-          <h3 class="resume-title">Education</h3>
-          <div class="resume-item">
-            <h4>Bachelors of Technology: Mechanical Engineering </h4>
-            <h5>2018- 2022</h5>
-            <p><em>Shree Guru gobind Singh Tricentenary University, Gurugram, Haryana</em></p>
-            <p> I Pursued my Bachelors with specialisation in "Hydraulics-Pneumatics" and "Robotics"</p>
-          </div>
-
-          <div class="resume-item">
-            <h4> High Schooling: Physics, Chemistry & Maths</h4>
-            <h5>2010 - 2014</h5>
-            <p><em>Blue Bells Public School, Sector- 10, Gurugram, India </em></p>
-            <p> I got best Idea award by "DST, India" during "Inspire Intership Program" held in Amity University, Manesar on a national level</p>
-          </div>
-        </div>
-
-        <div class="col-lg-6">
-          <h3 class="resume-title">Memberships</h3>
-
-
-          <div class="resume-item">
-            <h4>ASME (American Society of Mechanical Engineers)</h4>
-            <h5>2019 - Present</h5>
-            <!-- <p>
-              <em> It was a society dedicated to empower students to develop critical thinking skills
-               in order to come up with best optimised mechanical solutions. There were many national 
-               and international competitions held by this Society. It gave me platform to interact with the 
-               world out here. 
-              </em>
-            </p>
-            <p>
-            <!-- <ul>
-              <li>Presentation on </li>
-              <li>It helped me Socialise and build up networks across globe</li> -->
-            <!-- </p> -->
-          </div>
-
-          <div class="resume-item">
-            <h4>SAEINDIA  (Society of Automotive Engineers)</h4>
-            <h5>2018 - 2019</h5>
-            <!-- <p>
-              <em> It was a society which gave numerous 
-              opportunities to research on mobility technology. 
-              It funded various projects in my University. 
-              </em>
-            </p>
-            <p>
-            <ul>
-              <li> Encouraged me to become Self motivated towards learning 3D Designing Softwares and Computer Aided Designing.</li>
-            </p> -->
-          </div>
-
-          <div class="resume-item">
-            <h4>Association of Engineers & Technocrats</h4>
-            <h5>2018- 2022</h5>
-            <p><em<b>President</b> of the Association from Student executive commitee</em></p>
-            <!-- <p>
-            <ul>
-              <li>Boosted my personal as well as social skills</li>
-              <li>Delegation of authority </li>
-              <li>Helped me buld up my Professional Reach</li>
-              <li>Managed people on a large gathering</li>
-            </ul>
-            </p> -->
-          </div>
-
-          <div class="resume-item">
-            <h4>ISHRAE (Indian Society of Heat and Refrigeration</h4>
-            <h5>2022</h5>
-            <p><em<b>Member</b> of the Association from Student executive commitee</em></p>
-            <!-- <p>
-            <ul>
-              <li>Presentation of project "Oxygen Concentrator"</li>
-              <li>Bagged 1st Position</li>
-              <li>Dem</li>
-              <li>Managed people on a large gathering</li>
-            </ul>
-            </p> -->
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section><!-- End Resume Section -->
-
-  <!-- ======= Services Section ======= -->
-  <section id="services" class="services">
-    <div class="container">
-
-      <div class="section-title">
-        <h2><i class="fas fa-times-octagon ">Patents & Projects</i></h2>
-        <p>&nbsp&nbsp Patents</p>
-      </div>
-      
-      <style>
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
-        }
-        
-        td, th {
-          border: 1px solid #7c6005;
-          text-align: left;
-          padding: 8px;
-        }
-        
-        tr:nth-child(even) {
-          background-color: #d5a401;
-        }
-        </style>
-        </head>
-        <body>
-        
-        <div class="col-sm-9 col-md-12 d-flex rounded-3 align-items-stretch">
-        <table>
-          <tr>
-            <th><h2><b>Serial No.</b> </h2></th>
-            <th><h2><b>Title</b></h2></th>
-            <th><h2><b>Filing No</b></h2></th>
-            <th><h2><b>Country</b></h2></th>
-            <th><h2><b>Status</b></h2></th>
-          </tr>
-          <tr>
-            <td><h3>1 </h3></td>
-            <td><h3>Apparatus & Method for Multi-material Extrusion Based 3d Printer</h3></td>
-            <td><h3>202011054516</h3></td>
-            <td><h3>Indian</h3></td>
-            <td><h3>Published</h3></td>
-          </tr>
-          <tr>
-            <td><h3>2 </h3></td>
-            <td><h3>Self-Sanitizing Attendance Recorder with Thermal Screening</h3></td>
-            <td><h3>2020104395</h3></td>
-            <td><h3>Australian</h3></td>
-            <td><h3>Granted</h3></td>
-          </tr>
-          <tr>
-            <td><h3>3 </h3></td>
-            <td><h3>In-Bed Exercising and Monitoring Device</h3></td>
-            <td><h3>2021100325</h3></td>
-            <td><h3>Australian</h3></td>
-            <td><h3>Granted</h3></td>
-          </tr>
-          <tr>
-            <td><h3>4 </h3></td>
-            <td><h3>Bio-Printing Device and System for Wound Healing</h3></td>
-            <td><h3>202111006553</h3></td>
-            <td><h3>Indian</h3></td>
-            <td><h3>Published</h3></td>
-          </tr>
-          <tr>
-            <td><h3>5 </h3></td>
-            <td><h3>A system and a process for recycling waste fabrics</h3></td>
-            <td><h3>2021102805</h3></td>
-            <td><h3>Australian</h3></td>
-            <td><h3>Filed</h3></td>
-          </tr>
-          <tr>
-            <td><h3>6 </h3></td>
-            <td><h3>Advanced ISF method by using laser & advance mechanism</h3></td>
-            <td><h3>2021102997</h3></td>
-            <td><h3>Australian</h3></td>
-            <td><h3>Granted</h3></td>
-          </tr>
-          <tr>
-            <td><h3>7 </h3></td>
-            <td><h3>A smart lamp-post for air purification</h3></td>
-            <td><h3>2021104404</h3></td>
-            <td><h3>Australian</h3></td>
-            <td><h3>Filed</h3></td>
-          </tr>
-          <tr>
-            <td><h3>8 </h3></td>
-            <td><h3>A smart lamp-post for air purification</h3></td>
-            <td><h3>347383-001</h3> </td>
-            <td><h3>Indian Design</h3></td>
-            <td><h3>Granted</h3></td>
-          </tr>
-          <tr>
-            <td><h3>9 </h3></td>
-            <td><h3>Yoga bed for health tracking</h3></td>
-            <td><h3>353934-001 </h3></td>
-            <td><h3>Indian Design</h3></td>
-            <td><h3>Granted</h3></td>
-          </tr>
-        </table>
-        </div>
-        
-    <div class="container">
-      <div class="section-title">
-        <p></p>
-        <p><a class="fa fa-align-left" aria-hidden="true">Projects</a></p>
-      </div> 
-    <style>
-      table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-      }
-      
-      td, th {
-        border: 1px solid #00f134;
-        text-align: left;
-        padding: 8px;
-      }
-      
-      tr:nth-child(even) {
-        background-color: #02b60b;
-      }
-      </style>
-      </head>
-      <body>
-      
-      <div class="col-sm-12 col-md-12 d-flex rounded-1 align-items-stretch">
-      <table>
-        <tr>
-          <th><h2><b>Serial No.</b></h2> </th>
-          <th><h2><b>Project Title</b></h2></th>
-          <th><h2><b>Year</b></h2></th>
-        </tr>
-        <tr>
-          <td><h3>1</h3></td>
-          <td><h3>A Portable Oxygen Concentrator for multiple purpose</h3></td>
-          <td><h3>2021- 2022</h3></td>
-        </tr>
-        <tr>
-          <td><h3>2</h3></td>
-          <td><h3>Ventilator- Vento-monitor</h3></td>
-          <td><h3>2021- 2022</h3></td>
-        </tr>
-        <tr>
-          <td><h3>3</h3></td>
-          <td><h3>Dhanrakshak- "A self sanitizing, Sorting and Currecny detection machine </h3></td>
-          <td><h3>2021- 2022</h3></td>
-        </tr>
-        <tr>
-          <td><h3>4</h3></td>
-          <td><h3>Low Cost Mechanical Ventilator </h3></td>
-          <td><h3>2021</h3></td>
-        </tr>
-        <tr>
-          <td><h3>5</h3></td>
-          <td><h3>Aerosol Containment Device for Covid Patients </h3></td>
-          <td><h3>2020</h3></td>
-        </tr>
-        <tr>
-          <td><h3>6</h3></td>
-          <td><h3>SG3D i4.0- " A multi material 3d printer" </h3></td>
-          <td><h3>2019</h3></td>
-        </tr>
-        <tr>
-          <td><h3>7</h3></td>
-          <td><h3>Gesture Controlled Robot using Flex Sensors </h3></td>
-          <td><h3>2018</h3></td>
-        </tr>
-      </table>
-      </div>
-
-        <!-- </div> -->
-        <!-- </div> -->
-      <!-- </div> -->
-    </div>
-  </section>
-
-  <!-- ======= Portfolio Section ======= -->
-  <section id="portfolio" class="portfolio">
-    <div class="container">
-
-      <div class="section-title">
-        <h2>Portfolio</h2>
-        <p>My Works</p>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-12 d-flex justify-content-center">
-          <ul id="portfolio-flters">
-            <li data-filter="*" class="filter-active">All</li>
-            <li data-filter=".filter-app">1</li>
-            <li data-filter=".filter-card">2</li>
-            <li data-filter=".filter-web">3</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="row portfolio-container">
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>1</h4>
-              <p>1</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="Portfolio Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>2</h4>
-              <p>2</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="Portfolio Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>3</h4>
-              <p>3</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="Portfolio Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>4</h4>
-              <p>4</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="Portfolio Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>5</h4>
-              <p>5</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 2"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="Portfolio Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>6</h4>
-              <p>6 </p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="Portfolio Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>7</h4>
-              <p>7 </p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 1"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="Portfolio Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>8 </h4>
-              <p>8</p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-8.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="Portfolio Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-          <div class="portfolio-wrap">
-            <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>9 </h4>
-              <p>9 </p>
-              <div class="portfolio-links">
-                <a href="assets/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
-                <a href="portfolio-details.html" data-gallery="portfolioDetailsGallery" data-glightbox="type: external" class="portfolio-details-lightbox" title="Portfolio Details"><i class="bx bx-link"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        
-
-      </div>
-
-    </div>
-  </section><!-- End Portfolio Section -->
-
-  <!-- ======= Contact Section ======= -->
-  <!-- <section id="contact" class="contact">
-    <div class="container">
-
-      <div class="section-title">
-        <h2>Contact</h2>
-        <p>Contact Me</p>
-      </div>
-
-      <div class="row mt-2">
-
-        <div class="col-md-6 d-flex align-items-stretch">
-          <div class="info-box">
-            <i class="bx bx-map"></i>
-            <h3>My Address</h3>
-            <p>Gurugram, India</p>
-          </div>
-        </div>
-
-        <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch">
-          <div class="info-box">
-            <i class="bx bx-share-alt"></i>
-            <h3>Social Profiles</h3>
-            <div class="social-links">
-              <a href="https://wa.me/+918368685792" class="google-plus"><i class="bi bi-whatsapp"></i></a>
-              <a href="https://www.linkedin.com/in/tanuj-satti-387776164" class="linkedin"><i class="bi bi-linkedin"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 mt-4 d-flex align-items-stretch">
-          <div class="info-box">
-            <i class="bx bx-envelope"></i>
-            <h3>Email Me</h3>
-            <p>tanujsatti59@gmail.com</p>
-          </div>
-        </div>
-        <div class="col-md-6 mt-4 d-flex align-items-stretch">
-          <div class="info-box">
-            <i class="bx bx-phone-call"></i>
-            <h3>Call Me</h3>
-            <p>+91 8368685792</p>
-          </div>
-        </div>
-      </div>
-
-      <form action="forms/contact.php" method="post" role="form" class="php-email-form mt-4">
-        <div class="row">
-          <div class="col-md-6 form-group">
-            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-          </div>
-          <div class="col-md-6 form-group mt-3 mt-md-0">
-            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-          </div>
-        </div>
-        <div class="form-group mt-3">
-          <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-        </div>
-        <div class="form-group mt-3">
-          <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-        </div>
-        <div class="my-3">
-          <div class="loading">Loading</div>
-          <div class="error-message"></div>
-          <div class="sent-message">Your message has been sent. Thank you!</div>
-        </div>
-        <div class="text-center"><button type="submit">Send Message</button></div>
-      </form>-->
-
-    <!-- </div> -->
-  <!-- </section>End Contact Section --> -->
-
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-   
-    Designed by <a href="https://www.linkedin.com/in/tanuj-satti-387776164">Tanuj Satti</a>
   </div>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/purecounter/purecounter.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+<!-- ===== MARQUEE ===== -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-dot"></span>Medical Robotics</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Mechatronics</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>ROS 2</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>SolidWorks</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Embedded Systems</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Computer Vision</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Patent Inventor</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>UAV Design</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Carbon Fibre</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Python · C++</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Medical Robotics</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Mechatronics</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>ROS 2</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>SolidWorks</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Embedded Systems</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Computer Vision</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Patent Inventor</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>UAV Design</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Carbon Fibre</div>
+    <div class="marquee-item"><span class="marquee-dot"></span>Python · C++</div>
+  </div>
+</div>
 
+<!-- ===== ABOUT ===== -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="label-badge">About Me</div>
+        <h2 class="display">Engineer.<br><span>Roboticist.</span><br>Inventor.</h2>
+        <p class="about-body">
+          I'm a Mechanical Engineer with 2+ years of industry experience, now pursuing my M.Sc. in Mechatronics &amp; Cyber-Physical Systems at Technische Hochschule Deggendorf. I bridge the gap between hardware and software — from carbon composite manufacturing to embedded systems to AI-driven robotics.
+        </p>
+        <p class="about-body" style="margin-bottom:28px">
+          My passion lies in building assistive and medical technologies that genuinely improve human lives. From low-cost ventilators built during a pandemic to patented multi-material 3D printers, I lead with curiosity and follow through with engineering rigour.
+        </p>
+        <div class="about-highlights">
+          <div class="ah-item reveal reveal-d1">
+            <div class="ah-icon">🔬</div>
+            <div>
+              <div class="ah-title">R&amp;D Leadership</div>
+              <div class="ah-sub">Led student &amp; industrial research projects</div>
+            </div>
+          </div>
+          <div class="ah-item reveal reveal-d2">
+            <div class="ah-icon">🤖</div>
+            <div>
+              <div class="ah-title">Robotics &amp; AI</div>
+              <div class="ah-sub">ROS 2, Computer Vision, Neural Networks</div>
+            </div>
+          </div>
+          <div class="ah-item reveal reveal-d3">
+            <div class="ah-icon">🏭</div>
+            <div>
+              <div class="ah-title">Manufacturing</div>
+              <div class="ah-sub">Carbon fibre, CNC, FDM printing</div>
+            </div>
+          </div>
+          <div class="ah-item reveal reveal-d4">
+            <div class="ah-icon">💡</div>
+            <div>
+              <div class="ah-title">Inventor</div>
+              <div class="ah-sub">9+ patents across India &amp; Australia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-d2">
+        <p class="about-right-title">Quick Info</p>
+        <ul class="info-list">
+          <li>
+            <span class="info-key">Current</span>
+            <span class="info-val">M.Sc. Robotics &amp; Cyber-Physical Systems, THD</span>
+          </li>
+          <li>
+            <span class="info-key">Background</span>
+            <span class="info-val">B.Tech Mechanical Engineering (8.79 / 10), SGT University</span>
+          </li>
+          <li>
+            <span class="info-key">Location</span>
+            <span class="info-val">Deggendorf, Bavaria, Germany</span>
+          </li>
+          <li>
+            <span class="info-key">Focus</span>
+            <span class="info-val">Medical Devices · Assistive Robotics · HMI</span>
+          </li>
+          <li>
+            <span class="info-key">Available</span>
+            <span class="info-val">Internship / Werkstudent / Research Roles</span>
+          </li>
+          <li>
+            <span class="info-key">Email</span>
+            <span class="info-val"><a href="mailto:sattitanuj3@gmail.com" style="color:var(--green);text-decoration:none">sattitanuj3@gmail.com</a></span>
+          </li>
+        </ul>
+        <p class="comp-title" style="margin-bottom:12px">Languages</p>
+        <div class="languages-row" style="margin-bottom:28px">
+          <span class="lang-pill fluent">English — Professional</span>
+          <span class="lang-pill fluent">Hindi — Native</span>
+          <span class="lang-pill">German — Learning</span>
+        </div>
+        <div class="about-links">
+          <a href="https://www.linkedin.com/in/tanuj-satti-387776164" target="_blank" class="link-chip">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a href="mailto:sattitanuj3@gmail.com" class="link-chip">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email Me
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== EXPERIENCE ===== -->
+<section id="experience" class="section">
+  <div class="container">
+    <div class="label-badge reveal">Work Experience</div>
+    <h2 class="display reveal">Where I've <span>Built</span> Things.</h2>
+
+    <div class="exp-grid" style="margin-top:52px">
+      <!-- Featured -->
+      <div class="exp-card featured reveal">
+        <div>
+          <span class="exp-label">Latest Role</span>
+          <div class="exp-role">Research Assistant</div>
+          <div class="exp-company">SGT University — Gurugram, India</div>
+          <ul class="exp-bullets">
+            <li>Mentored UG &amp; PG students on engineering projects: UAV drone design &amp; prototyping, plastic-to-filament converters, and mechatronics R&amp;D.</li>
+            <li>Appointed Researcher at CST EnviroTech for a Hydrogen Engine Testing Lab — supporting conversion of ICEs to H₂ fuel (3 kW, 20 kW, 100 kW units).</li>
+            <li>Supported electrolyser design, flywheel-based power multiplier systems, and exhaust heat recovery research.</li>
+          </ul>
+        </div>
+        <span class="exp-period">Apr 2025 – Oct 2025</span>
+      </div>
+
+      <div class="exp-card reveal reveal-d1">
+        <span class="exp-label">Carbon &amp; Composites</span>
+        <div class="exp-role">Junior Mechanical Research Engineer</div>
+        <div class="exp-company">Raphe mPhibr Pvt. Ltd. — Noida, India</div>
+        <ul class="exp-bullets">
+          <li>Designed molds for prepreg layup and developed CAD for mass-manufacturable carbon fibre plates.</li>
+          <li>Generated CAM files for CNC machining of aluminium and carbon fibre components.</li>
+          <li>Contributed to drone R&amp;D and optimised manufacturing workflows for improved durability.</li>
+        </ul>
+        <span class="exp-period" style="margin-top:16px;display:inline-block">Dec 2022 – Mar 2025</span>
+      </div>
+
+      <div class="exp-card reveal reveal-d2">
+        <span class="exp-label">Research Internship</span>
+        <div class="exp-role">Research Intern</div>
+        <div class="exp-company">CLICK@SGTU, SGT University — Gurugram, India</div>
+        <ul class="exp-bullets">
+          <li>Developed a modular boat assembly project with full CAD modelling and ReactJS website documentation.</li>
+          <li>Authored Arduino-based open-source firmware and published technical blog posts for the community.</li>
+        </ul>
+        <span class="exp-period" style="margin-top:16px;display:inline-block">Jul 2022 – Dec 2022</span>
+      </div>
+
+      <div class="exp-card reveal reveal-d3">
+        <span class="exp-label">Training</span>
+        <div class="exp-role">Industrial Training — RoboAI</div>
+        <div class="exp-company">My Equation Education · Tech Analogy Pvt. Ltd. — Gurugram</div>
+        <ul class="exp-bullets">
+          <li>Intensive modules covering Mechanical &amp; Industrial Design, Electronics &amp; IoT, Machine Learning / AI, and ROS 2.</li>
+        </ul>
+        <span class="exp-period" style="margin-top:16px;display:inline-block">Apr – May 2025</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills" class="section">
+  <div class="container">
+    <div class="label-badge reveal">Capabilities</div>
+    <h2 class="display reveal">What I <span>Work</span> With.</h2>
+
+    <div class="skills-cols" style="margin-top:52px">
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Robotics &amp; Automation</div>
+        <ul class="skill-list">
+          <li>ROS 2</li>
+          <li>Robot Kinematics</li>
+          <li>Drone Systems / UAV Design</li>
+          <li>Embedded Systems</li>
+          <li>Mechatronics</li>
+          <li>Sensor Integration</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal reveal-d1">
+        <div class="skill-group-title">Programming</div>
+        <ul class="skill-list">
+          <li>Python</li>
+          <li>C / C++ / Embedded C</li>
+          <li>MATLAB</li>
+          <li>Arduino</li>
+          <li>OpenCV (Computer Vision)</li>
+          <li>ReactJS</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal reveal-d2">
+        <div class="skill-group-title">CAD / CAM &amp; Manufacturing</div>
+        <ul class="skill-list">
+          <li>SolidWorks</li>
+          <li>Fusion 360</li>
+          <li>Mastercam (CNC)</li>
+          <li>FDM 3D Printing</li>
+          <li>Carbon Fibre Composites</li>
+          <li>Wet Layup / Prepreg</li>
+        </ul>
+      </div>
+      <div class="skill-group reveal reveal-d3">
+        <div class="skill-group-title">Research &amp; Other</div>
+        <ul class="skill-list">
+          <li>Patent Writing &amp; IP</li>
+          <li>Technical Documentation</li>
+          <li>MVP Development</li>
+          <li>Unity XR / VR</li>
+          <li>GPRS &amp; IoT</li>
+          <li>Team Leadership</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Competency bars -->
+    <div class="comp-section reveal" style="margin-top:64px">
+      <p class="comp-title">Core Competencies</p>
+      <div class="comp-grid">
+        <div class="comp-item">
+          <div class="comp-header"><span class="comp-name">SolidWorks / Fusion 360</span><span class="comp-pct">90%</span></div>
+          <div class="comp-bar"><div class="comp-fill" data-width="0.9"></div></div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-header"><span class="comp-name">Embedded Systems / Arduino</span><span class="comp-pct">85%</span></div>
+          <div class="comp-bar"><div class="comp-fill" data-width="0.85"></div></div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-header"><span class="comp-name">Python / OpenCV</span><span class="comp-pct">80%</span></div>
+          <div class="comp-bar"><div class="comp-fill" data-width="0.8"></div></div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-header"><span class="comp-name">Carbon Fibre Manufacturing</span><span class="comp-pct">85%</span></div>
+          <div class="comp-bar"><div class="comp-fill" data-width="0.85"></div></div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-header"><span class="comp-name">ROS 2 / Robot Kinematics</span><span class="comp-pct">70%</span></div>
+          <div class="comp-bar"><div class="comp-fill" data-width="0.7"></div></div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-header"><span class="comp-name">Research &amp; Patent Writing</span><span class="comp-pct">90%</span></div>
+          <div class="comp-bar"><div class="comp-fill" data-width="0.9"></div></div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-header"><span class="comp-name">C / C++</span><span class="comp-pct">75%</span></div>
+          <div class="comp-bar"><div class="comp-fill" data-width="0.75"></div></div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-header"><span class="comp-name">Mechatronic Prototyping</span><span class="comp-pct">88%</span></div>
+          <div class="comp-bar"><div class="comp-fill" data-width="0.88"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== PROJECTS ===== -->
+<section id="projects" class="section">
+  <div class="container">
+    <div class="label-badge reveal">Projects</div>
+    <h2 class="display reveal">Selected <span>Work.</span></h2>
+    <p class="projects-subhead reveal">Practical, tested systems designed under real-world constraints with patients and people in mind.</p>
+
+    <div class="projects-grid">
+
+      <!-- Large card -->
+      <div class="proj-card large reveal">
+        <div class="proj-card-img">
+          <div class="img-glow"></div>
+          <span class="icon">🫁</span>
+        </div>
+        <div class="proj-card-body">
+          <span class="proj-tag">Medical Device · 2021–2022</span>
+          <h3 class="proj-title">Vento-Monitor — Intelligent Ventilator</h3>
+          <p class="proj-desc">
+            A smart mechanical ventilator with inbuilt GPRS for patient tracking and QR-code-based remote physician access. Patients can be monitored in real-time; physicians can adjust PIP, PEEP, O₂, and BPM parameters remotely. Built with an automatic breath stabiliser and a 7" touch UI, targeting low-cost hospital deployment and patient transport.
+          </p>
+          <div class="proj-meta">
+            <span class="proj-chip">GPRS Module</span>
+            <span class="proj-chip">Embedded C</span>
+            <span class="proj-chip">Sensor Integration</span>
+            <span class="proj-chip">Mechanical Design</span>
+            <span class="proj-chip">QR Remote Access</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal reveal-d1">
+        <div class="proj-card-img">
+          <div class="img-glow"></div>
+          <span class="icon">💨</span>
+        </div>
+        <div class="proj-card-body">
+          <span class="proj-tag">Medical Device · 2021–2022</span>
+          <h3 class="proj-title">Portable Oxygen Concentrator</h3>
+          <p class="proj-desc">
+            A 30 L/min oxygen concentrator with automatic breath detection, pressure control, adjustable LPM, and embedded SpO₂ / O₂ / pressure monitoring. Designed for multi-purpose clinical use — compressing it into a portable, maintainable, low-cost unit for emerging markets.
+          </p>
+          <div class="proj-meta">
+            <span class="proj-chip">SpO₂ Sensor</span>
+            <span class="proj-chip">Pressure Control</span>
+            <span class="proj-chip">Embedded</span>
+            <span class="proj-chip">DFM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal reveal-d2">
+        <div class="proj-card-img">
+          <div class="img-glow"></div>
+          <span class="icon">🖨️</span>
+        </div>
+        <div class="proj-card-body">
+          <span class="proj-tag">Additive Manufacturing · 2019</span>
+          <h3 class="proj-title">SG3D i4.0 — Multi-Material 3D Printer</h3>
+          <p class="proj-desc">
+            Large-format FDM printer (310×310×800 mm) capable of PETG, ABS, PLA, carbon fibre, and diamond-infused filament. Paired with a patented multi-material extrusion system enabling functional prototypes and medical prosthetics in a single workflow.
+          </p>
+          <div class="proj-meta">
+            <span class="proj-chip">Mechanism Design</span>
+            <span class="proj-chip">Firmware</span>
+            <span class="proj-chip">Patent IP</span>
+            <span class="proj-chip">Prosthetics</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="proj-card-img">
+          <div class="img-glow"></div>
+          <span class="icon">🤚</span>
+        </div>
+        <div class="proj-card-body">
+          <span class="proj-tag">Robotics · 2018</span>
+          <h3 class="proj-title">Gesture-Controlled Robot</h3>
+          <p class="proj-desc">
+            A 15 kg payload robot driven by flex-sensor glove input with a range of 200–300 m — built from scratch without prior coding experience. Later evolved into a wall-climbing surface-cleaning robot, demonstrating iterative product thinking.
+          </p>
+          <div class="proj-meta">
+            <span class="proj-chip">Flex Sensors</span>
+            <span class="proj-chip">Embedded C</span>
+            <span class="proj-chip">Kinematics</span>
+            <span class="proj-chip">RF Control</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal reveal-d1">
+        <div class="proj-card-img">
+          <div class="img-glow"></div>
+          <span class="icon">💴</span>
+        </div>
+        <div class="proj-card-body">
+          <span class="proj-tag">Automation · 2021</span>
+          <h3 class="proj-title">Dhanrakshak — Currency Sanitising &amp; Sorting</h3>
+          <p class="proj-desc">
+            A self-sanitising, sorting, and currency-detection machine using OpenCV (size, colour, training-set detection) to identify and sort Indian currency denominations, combining mechanical design with computer vision.
+          </p>
+          <div class="proj-meta">
+            <span class="proj-chip">OpenCV</span>
+            <span class="proj-chip">Python</span>
+            <span class="proj-chip">Mechatronics</span>
+            <span class="proj-chip">Vision</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal reveal-d2">
+        <div class="proj-card-img">
+          <div class="img-glow"></div>
+          <span class="icon">🚁</span>
+        </div>
+        <div class="proj-card-body">
+          <span class="proj-tag">UAV / Composites · 2023–2025</span>
+          <h3 class="proj-title">Drone R&amp;D — Carbon Composite Platforms</h3>
+          <p class="proj-desc">
+            At Raphe mPhibr, contributed to drone R&amp;D — designing carbon fibre plates, moulds for prepreg layup, and generating CNC CAM files, directly reducing production cycle time and improving structural durability.
+          </p>
+          <div class="proj-meta">
+            <span class="proj-chip">Carbon Fibre</span>
+            <span class="proj-chip">CNC / CAM</span>
+            <span class="proj-chip">SolidWorks</span>
+            <span class="proj-chip">UAV</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== PATENTS ===== -->
+<section id="patents" class="section">
+  <div class="container">
+    <div class="label-badge reveal">Intellectual Property</div>
+    <h2 class="display reveal">9+ <span>Patents.</span></h2>
+    <p class="patents-sub reveal">Granted and published patents across India and Australia — spanning medical devices, manufacturing, energy, and smart infrastructure.</p>
+
+    <div class="reveal">
+      <table class="patents-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Invention</th>
+            <th>Filing No.</th>
+            <th>Country</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>01</td>
+            <td class="patent-title">Apparatus for Multi-Material Extrusion Based 3D Printing</td>
+            <td class="ip-num">202011054516A</td>
+            <td><span class="patent-country">🇮🇳 India</span></td>
+            <td><span class="status-published">Published</span></td>
+          </tr>
+          <tr>
+            <td>02</td>
+            <td class="patent-title">Self-Sanitizing Attendance Recorder with Thermal Screening</td>
+            <td class="ip-num">2020104395</td>
+            <td><span class="patent-country">🇦🇺 Australia</span></td>
+            <td><span class="status-granted">Granted</span></td>
+          </tr>
+          <tr>
+            <td>03</td>
+            <td class="patent-title">In-Bed Exercising and Monitoring Device</td>
+            <td class="ip-num">2021100325</td>
+            <td><span class="patent-country">🇦🇺 Australia</span></td>
+            <td><span class="status-granted">Granted</span></td>
+          </tr>
+          <tr>
+            <td>04</td>
+            <td class="patent-title">Bio-Printing Device and System for Wound Healing</td>
+            <td class="ip-num">202111006553A</td>
+            <td><span class="patent-country">🇮🇳 India</span></td>
+            <td><span class="status-published">Published</span></td>
+          </tr>
+          <tr>
+            <td>05</td>
+            <td class="patent-title">A System and Process for Recycling Waste Fabrics</td>
+            <td class="ip-num">2021102805</td>
+            <td><span class="patent-country">🇦🇺 Australia</span></td>
+            <td><span class="status-granted">Granted</span></td>
+          </tr>
+          <tr>
+            <td>06</td>
+            <td class="patent-title">Advanced ISF Method by Laser &amp; Advanced Mechanism</td>
+            <td class="ip-num">2021102997</td>
+            <td><span class="patent-country">🇦🇺 Australia</span></td>
+            <td><span class="status-granted">Granted</span></td>
+          </tr>
+          <tr>
+            <td>07</td>
+            <td class="patent-title">A Smart Lamp-Post for Air Purification</td>
+            <td class="ip-num">2021104404</td>
+            <td><span class="patent-country">🇦🇺 Australia</span></td>
+            <td><span class="status-filed">Filed</span></td>
+          </tr>
+          <tr>
+            <td>08</td>
+            <td class="patent-title">Smart Lamp-Post for Air Purification (Design)</td>
+            <td class="ip-num">347383-001</td>
+            <td><span class="patent-country">🇮🇳 India Design</span></td>
+            <td><span class="status-granted">Granted</span></td>
+          </tr>
+          <tr>
+            <td>09</td>
+            <td class="patent-title">Oxygen Concentrator (Design Patent)</td>
+            <td class="ip-num">460091-001</td>
+            <td><span class="patent-country">🇮🇳 India Design</span></td>
+            <td><span class="status-granted">Granted · May 2025</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section id="testimonials" class="section">
+  <div class="container">
+    <div class="label-badge reveal">Testimonials</div>
+    <h2 class="display reveal" style="margin-bottom:48px">What Mentors <span>Say.</span></h2>
+
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <p class="testi-quote">Tanuj is a very diligent young professional with impeccable attitude coupled with willingness to learn new skills. He is extremely methodical and breaks problems into small bits, applying his knowledge and conviction to solve challenges.</p>
+        <div class="testi-author">
+          <span class="testi-name">Dr. Rajneesh Wadhwa</span>
+          <span class="testi-role">External Affairs, SGT University</span>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-d1">
+        <p class="testi-quote">Without any prior expertise in the field of medical engineering, Tanuj was able to portray exceptional work by building a low-cost ventilator. He exhibits a good sense of design knowledge and strong managerial skills.</p>
+        <div class="testi-author">
+          <span class="testi-name">Dr. Baljit Singh</span>
+          <span class="testi-role">HOD, Dept. of Anaesthesiology, SGT Hospital</span>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-d2">
+        <p class="testi-quote">Tanuj and his team built a gesture-controlled robot without any prior knowledge of coding or design. His team is outstanding at finding solutions to complex problems — kudos to their tenacity and creativity.</p>
+        <div class="testi-author">
+          <span class="testi-name">Miss. Monika Deswal</span>
+          <span class="testi-role">Assistant Professor, SGT University</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="reveal">
+        <div class="label-badge">Contact</div>
+        <h2 class="display">Let's<br>Build<br><span>Together.</span></h2>
+        <p class="contact-desc">
+          I'm actively seeking internship, Werkstudent, and research roles in robotics, medical devices, and mechatronics. If you have a challenging problem — let's talk.
+        </p>
+        <ul class="contact-list">
+          <li>
+            <div class="contact-icon">✉️</div>
+            <div>
+              <div class="contact-info-label">Primary Email</div>
+              <a class="contact-info-val" href="mailto:sattitanuj3@gmail.com">sattitanuj3@gmail.com</a>
+            </div>
+          </li>
+          <li>
+            <div class="contact-icon">📧</div>
+            <div>
+              <div class="contact-info-label">Secondary Email</div>
+              <a class="contact-info-val" href="mailto:tanujsatti59@gmail.com">tanujsatti59@gmail.com</a>
+            </div>
+          </li>
+          <li>
+            <div class="contact-icon">📱</div>
+            <div>
+              <div class="contact-info-label">Phone (DE)</div>
+              <a class="contact-info-val" href="tel:+4915510401767">+49 155 1040 1767</a>
+            </div>
+          </li>
+          <li>
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-info-label">Location</div>
+              <span class="contact-info-val">Deggendorf, Bavaria, Germany</span>
+            </div>
+          </li>
+        </ul>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://www.linkedin.com/in/tanuj-satti-387776164" target="_blank" class="link-chip">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn Profile
+          </a>
+          <a href="https://tanujsatti.github.io/TanujSatti" target="_blank" class="link-chip">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            Portfolio Site
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form reveal reveal-d2">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="cf-name">Name</label>
+            <input id="cf-name" type="text" placeholder="Your name" />
+          </div>
+          <div class="form-field">
+            <label for="cf-email">Email</label>
+            <input id="cf-email" type="email" placeholder="your@email.com" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="cf-subject">Subject</label>
+          <input id="cf-subject" type="text" placeholder="Internship opportunity · Collaboration · Other" />
+        </div>
+        <div class="form-field">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" placeholder="Tell me about the opportunity, role, or project…"></textarea>
+        </div>
+        <button class="btn-submit" onclick="handleFormSubmit(event)">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <span class="footer-logo">T<span>S</span></span>
+    <span class="footer-copy">© 2025 Tanuj Satti · Deggendorf, Germany · Built with curiosity &amp; caffeine.</span>
+    <div class="footer-socials">
+      <a href="https://www.linkedin.com/in/tanuj-satti-387776164" target="_blank" class="social-link" title="LinkedIn">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="mailto:sattitanuj3@gmail.com" class="social-link" title="Email">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+      <a href="https://tanujsatti.github.io/TanujSatti" target="_blank" class="social-link" title="Portfolio">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ---- Custom Cursor ----
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = -100, my = -100, rx = -100, ry = -100;
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+function animCursor() {
+  rx += (mx - rx) * 0.15;
+  ry += (my - ry) * 0.15;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// ---- Scroll Reveal ----
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => revealObs.observe(el));
+
+// ---- Competency Bar Animation ----
+const fills = document.querySelectorAll('.comp-fill');
+const barObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      const el = e.target;
+      const w = parseFloat(el.dataset.width);
+      el.style.transform = `scaleX(${w})`;
+      el.classList.add('animated');
+      barObs.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+fills.forEach(f => barObs.observe(f));
+
+// ---- Nav active highlight ----
+const navLinks = document.querySelectorAll('.nav-links a');
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  const scrollPos = window.scrollY + 100;
+  sections.forEach(sec => {
+    if (scrollPos >= sec.offsetTop && scrollPos < sec.offsetTop + sec.offsetHeight) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const match = document.querySelector(`.nav-links a[href="#${sec.id}"]`);
+      if(match) match.classList.add('active');
+    }
+  });
+}, {passive:true});
+
+// ---- Contact form ----
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById('cf-name').value.trim();
+  const email = document.getElementById('cf-email').value.trim();
+  const subject = document.getElementById('cf-subject').value.trim();
+  const message = document.getElementById('cf-message').value.trim();
+  if(!name || !email || !message) { alert('Please fill in all required fields.'); return; }
+  const mailto = `mailto:sattitanuj3@gmail.com?subject=${encodeURIComponent(subject||'Portfolio Enquiry')}&body=${encodeURIComponent(`From: ${name} <${email}>\n\n${message}`)}`;
+  window.location.href = mailto;
+}
+
+// ---- Typed hero kicker ----
+const typedTarget = document.querySelector('.hero-eyebrow');
+if(typedTarget) {
+  const phrases = ['Robotics Engineer & Inventor','Medical Device Designer','Mechatronics Researcher','Open to Opportunities'];
+  let pi = 0, ci = 0, typing = true;
+  function typeLoop() {
+    const phrase = phrases[pi];
+    if(typing) {
+      ci++;
+      if(ci === phrase.length) { typing = false; setTimeout(typeLoop, 1800); typedTarget.innerHTML = `<span style="display:inline-block;width:32px;height:1px;background:var(--green);vertical-align:middle;margin-right:12px"></span>${phrase}`; return; }
+    } else {
+      ci--;
+      if(ci === 0) { typing = true; pi = (pi+1)%phrases.length; }
+    }
+    typedTarget.innerHTML = `<span style="display:inline-block;width:32px;height:1px;background:var(--green);vertical-align:middle;margin-right:12px"></span>${phrase.slice(0,ci)}`;
+    setTimeout(typeLoop, typing ? 60 : 30);
+  }
+  setTimeout(typeLoop, 1200);
+}
+
+// ---- Parallax orbs ----
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const o1 = document.querySelector('.hero-orb-1');
+  const o2 = document.querySelector('.hero-orb-2');
+  if(o1) o1.style.transform = `translateY(${y*0.2}px)`;
+  if(o2) o2.style.transform = `translateY(${-y*0.15}px)`;
+},{passive:true});
+</script>
 </body>
-
 </html>
